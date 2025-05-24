@@ -1,0 +1,36 @@
+.navbar
+{
+    background-color: #32505c;
+    padding: 0.5rem;
+    width: 100%;
+    margin: 0;
+}
+
+.navbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.navbar-account
+{
+  text-align: right;
+  margin-right: 2rem;
+}
+
+.navbar-name
+{
+  color: white;
+  font-size: xx-large;
+  font-weight: bold;
+  text-decoration: none;
+  margin-left: 1rem;
+}
+
+.navbar-login, .navbar-signup
+{
+  padding: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
