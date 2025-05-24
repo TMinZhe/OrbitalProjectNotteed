@@ -5,7 +5,6 @@ import HomePage from './pages/HomePage';
 import NotesPage from './pages/NotesPage/NotesPage';
 import AccountPage from './pages/AccountPage';
 import ProtectedRoute from './components/ProtectedRoute';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/variables.css'
 
 export default function App() {

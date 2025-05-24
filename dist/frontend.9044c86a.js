@@ -16124,14 +16124,13 @@ var _accountPage = require("./pages/AccountPage");
 var _accountPageDefault = parcelHelpers.interopDefault(_accountPage);
 var _protectedRoute = require("./components/ProtectedRoute");
 var _protectedRouteDefault = parcelHelpers.interopDefault(_protectedRoute);
-var _bootstrapMinCss = require("bootstrap/dist/css/bootstrap.min.css");
 var _variablesCss = require("./styles/variables.css");
 function App() {
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.BrowserRouter), {
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _navBarDefault.default), {}, void 0, false, {
                 fileName: "frontend/src/App.js",
-                lineNumber: 14,
+                lineNumber: 13,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Routes), {
@@ -16140,12 +16139,12 @@ function App() {
                         path: "/",
                         element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _homePageDefault.default), {}, void 0, false, {
                             fileName: "frontend/src/App.js",
-                            lineNumber: 19,
+                            lineNumber: 18,
                             columnNumber: 13
                         }, void 0)
                     }, void 0, false, {
                         fileName: "frontend/src/App.js",
-                        lineNumber: 16,
+                        lineNumber: 15,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Route), {
@@ -16153,41 +16152,41 @@ function App() {
                         element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _protectedRouteDefault.default), {
                             children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _notesPageDefault.default), {}, void 0, false, {
                                 fileName: "frontend/src/App.js",
-                                lineNumber: 26,
+                                lineNumber: 25,
                                 columnNumber: 15
                             }, void 0)
                         }, void 0, false, {
                             fileName: "frontend/src/App.js",
-                            lineNumber: 25,
+                            lineNumber: 24,
                             columnNumber: 13
                         }, void 0)
                     }, void 0, false, {
                         fileName: "frontend/src/App.js",
-                        lineNumber: 22,
+                        lineNumber: 21,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Route), {
                         path: "/account",
                         element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _accountPageDefault.default), {}, void 0, false, {
                             fileName: "frontend/src/App.js",
-                            lineNumber: 30,
+                            lineNumber: 29,
                             columnNumber: 41
                         }, void 0)
                     }, void 0, false, {
                         fileName: "frontend/src/App.js",
-                        lineNumber: 30,
+                        lineNumber: 29,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "frontend/src/App.js",
-                lineNumber: 15,
+                lineNumber: 14,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "frontend/src/App.js",
-        lineNumber: 13,
+        lineNumber: 12,
         columnNumber: 5
     }, this);
 }
@@ -16200,7 +16199,7 @@ $RefreshReg$(_c, "App");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-router-dom":"61z4w","./components/NavBar/NavBar":"f6EnN","./components/ProtectedRoute":"dk54F","bootstrap/dist/css/bootstrap.min.css":"i5LP7","./styles/variables.css":"b44D5","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","./pages/AccountPage":"87xcX","./pages/HomePage":"5VOHp","./pages/NotesPage/NotesPage":"8eyB2"}],"61z4w":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-router-dom":"61z4w","./components/NavBar/NavBar":"f6EnN","./pages/HomePage":"5VOHp","./pages/NotesPage/NotesPage":"8eyB2","./pages/AccountPage":"87xcX","./components/ProtectedRoute":"dk54F","./styles/variables.css":"b44D5","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"61z4w":[function(require,module,exports,__globalThis) {
 /**
  * React Router DOM v6.30.1
  *
@@ -25845,43 +25844,47 @@ function $da9882e673ac146b$var$ErrorOverlay() {
     return null;
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"dk54F":[function(require,module,exports,__globalThis) {
-var $parcel$ReactRefreshHelpers$9115 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-$parcel$ReactRefreshHelpers$9115.init();
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"5VOHp":[function(require,module,exports,__globalThis) {
+var $parcel$ReactRefreshHelpers$19b1 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+$parcel$ReactRefreshHelpers$19b1.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
 var prevRefreshSig = globalThis.$RefreshSig$;
-$parcel$ReactRefreshHelpers$9115.prelude(module);
+$parcel$ReactRefreshHelpers$19b1.prelude(module);
 
 try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "default", ()=>ProtectedRoute);
+parcelHelpers.export(exports, "default", ()=>HomePage);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
-var _reactRouterDom = require("react-router-dom");
-function ProtectedRoute({ children }) {
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (!user || !user.email) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Navigate), {
-        to: "/login",
-        replace: true
+function HomePage() {
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
+            children: "HOME PAGE"
+        }, void 0, false, {
+            fileName: "frontend/src/pages/HomePage.js",
+            lineNumber: 6,
+            columnNumber: 13
+        }, this)
     }, void 0, false, {
-        fileName: "frontend/src/components/ProtectedRoute.js",
-        lineNumber: 8,
-        columnNumber: 12
+        fileName: "frontend/src/pages/HomePage.js",
+        lineNumber: 5,
+        columnNumber: 9
     }, this);
-    return children;
 }
-_c = ProtectedRoute;
+_c = HomePage;
 var _c;
-$RefreshReg$(_c, "ProtectedRoute");
+$RefreshReg$(_c, "HomePage");
 
-  $parcel$ReactRefreshHelpers$9115.postlude(module);
+  $parcel$ReactRefreshHelpers$19b1.postlude(module);
 } finally {
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-router-dom":"61z4w","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"i5LP7":[function() {},{}],"b44D5":[function() {},{}],"87xcX":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"8eyB2":[function(require,module,exports,__globalThis) {
+
+},{}],"87xcX":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$1839 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$1839.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -26283,46 +26286,42 @@ $RefreshReg$(_c, "SignupPrompt");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-router-dom":"61z4w","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"5VOHp":[function(require,module,exports,__globalThis) {
-var $parcel$ReactRefreshHelpers$19b1 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-$parcel$ReactRefreshHelpers$19b1.init();
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-router-dom":"61z4w","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"dk54F":[function(require,module,exports,__globalThis) {
+var $parcel$ReactRefreshHelpers$9115 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+$parcel$ReactRefreshHelpers$9115.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
 var prevRefreshSig = globalThis.$RefreshSig$;
-$parcel$ReactRefreshHelpers$19b1.prelude(module);
+$parcel$ReactRefreshHelpers$9115.prelude(module);
 
 try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "default", ()=>HomePage);
+parcelHelpers.export(exports, "default", ()=>ProtectedRoute);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
-function HomePage() {
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
-            children: "HOME PAGE"
-        }, void 0, false, {
-            fileName: "frontend/src/pages/HomePage.js",
-            lineNumber: 6,
-            columnNumber: 13
-        }, this)
+var _reactRouterDom = require("react-router-dom");
+function ProtectedRoute({ children }) {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user || !user.email) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Navigate), {
+        to: "/login",
+        replace: true
     }, void 0, false, {
-        fileName: "frontend/src/pages/HomePage.js",
-        lineNumber: 5,
-        columnNumber: 9
+        fileName: "frontend/src/components/ProtectedRoute.js",
+        lineNumber: 8,
+        columnNumber: 12
     }, this);
+    return children;
 }
-_c = HomePage;
+_c = ProtectedRoute;
 var _c;
-$RefreshReg$(_c, "HomePage");
+$RefreshReg$(_c, "ProtectedRoute");
 
-  $parcel$ReactRefreshHelpers$19b1.postlude(module);
+  $parcel$ReactRefreshHelpers$9115.postlude(module);
 } finally {
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"8eyB2":[function(require,module,exports,__globalThis) {
-
-},{}]},["8u7cP","dSG2g"], "dSG2g", "parcelRequire5cf9", {}, null, null, "http://localhost:3000")
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-router-dom":"61z4w","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"b44D5":[function() {},{}]},["8u7cP","dSG2g"], "dSG2g", "parcelRequire5cf9", {}, null, null, "http://localhost:3000")
 
 //# sourceMappingURL=frontend.9044c86a.js.map
