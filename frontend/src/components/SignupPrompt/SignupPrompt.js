@@ -1,19 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { postData } from '../../../../backend/api';
 
 export default function SignupPrompt() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-
-  const postData = async (url = '', data = {}) => {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
-    return response.json();
-  };
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -21,7 +13,7 @@ export default function SignupPrompt() {
       alert('Please fill all fields');
       return;
     }
-    const res = await postData('/signup', { email, password });
+    const res = await postData('/api/signup', { email, password });
     if (res.success) {
       alert('Signup successful! Please login.');
       navigate('/login');
@@ -60,7 +52,7 @@ export default function SignupPrompt() {
                     autoComplete="new-password"
                 />
                 </div>
-
+                <div id ="signupMsg"></div>
                 <button type="submit" className="btn btn-primary w-100">Sign up</button>
                 <a href="/account?login" className="btn btn-secondary w-100 mt-3">Log into existing account</a>
             </form>

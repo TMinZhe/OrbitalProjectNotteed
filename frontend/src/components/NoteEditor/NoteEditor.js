@@ -6,7 +6,7 @@ export default function NoteEditor({ refreshNotes }) {
 
   const handleSubmit = async () => {
     const email = JSON.parse(localStorage.getItem('user'))?.email;
-    const response = await fetch('/addnote', {
+    const response = await fetch('/api/addnote', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title, desc, email })

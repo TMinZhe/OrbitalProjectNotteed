@@ -88,7 +88,7 @@
             let title = document.getElementById('edit-title').value;
             let desc = document.getElementById('edit-desc').value;
 
-            let resp = await postData('/updatenote', { id, title, desc });
+            let resp = await postData('/api/updatenote', { id, title, desc });
             if (resp.success) {
                 alert("Note updated!");
                 window.location.href = '/';

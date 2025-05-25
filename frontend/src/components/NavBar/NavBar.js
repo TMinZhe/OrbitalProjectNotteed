@@ -10,7 +10,10 @@ export default function NavBar() {
         <a className="navbar-name" href="/">NOTTEED</a>
         <div className="navbar-account" style={{ display: 'flex', gap: '16px' }}>
           {user && user.email ? (
+            <>
+            <a className="navbar-notes" href="/notes">Notes</a>
             <span className="navbar-username">Welcome, {user.username || user.email}</span>
+            </>
           ) : (
             <>
               <a href="/account?action=login"><button className='navbar-login'>Login</button></a>

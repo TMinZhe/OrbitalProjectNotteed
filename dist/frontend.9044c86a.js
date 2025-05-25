@@ -23496,17 +23496,30 @@ function NavBar() {
                         display: 'flex',
                         gap: '16px'
                     },
-                    children: user && user.email ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                        className: "navbar-username",
+                    children: user && user.email ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
                         children: [
-                            "Welcome, ",
-                            user.username || user.email
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
+                                className: "navbar-notes",
+                                href: "/notes",
+                                children: "Notes"
+                            }, void 0, false, {
+                                fileName: "frontend/src/components/NavBar/NavBar.js",
+                                lineNumber: 14,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                className: "navbar-username",
+                                children: [
+                                    "Welcome, ",
+                                    user.username || user.email
+                                ]
+                            }, void 0, true, {
+                                fileName: "frontend/src/components/NavBar/NavBar.js",
+                                lineNumber: 15,
+                                columnNumber: 13
+                            }, this)
                         ]
-                    }, void 0, true, {
-                        fileName: "frontend/src/components/NavBar/NavBar.js",
-                        lineNumber: 13,
-                        columnNumber: 13
-                    }, this) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
+                    }, void 0, true) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
                         children: [
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
                                 href: "/account?action=login",
@@ -23515,12 +23528,12 @@ function NavBar() {
                                     children: "Login"
                                 }, void 0, false, {
                                     fileName: "frontend/src/components/NavBar/NavBar.js",
-                                    lineNumber: 16,
+                                    lineNumber: 19,
                                     columnNumber: 47
                                 }, this)
                             }, void 0, false, {
                                 fileName: "frontend/src/components/NavBar/NavBar.js",
-                                lineNumber: 16,
+                                lineNumber: 19,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
@@ -23530,12 +23543,12 @@ function NavBar() {
                                     children: "Signup"
                                 }, void 0, false, {
                                     fileName: "frontend/src/components/NavBar/NavBar.js",
-                                    lineNumber: 17,
+                                    lineNumber: 20,
                                     columnNumber: 48
                                 }, this)
                             }, void 0, false, {
                                 fileName: "frontend/src/components/NavBar/NavBar.js",
-                                lineNumber: 17,
+                                lineNumber: 20,
                                 columnNumber: 15
                             }, this)
                         ]
@@ -25883,8 +25896,501 @@ $RefreshReg$(_c, "HomePage");
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
 },{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"8eyB2":[function(require,module,exports,__globalThis) {
+var $parcel$ReactRefreshHelpers$54bd = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+$parcel$ReactRefreshHelpers$54bd.init();
+var prevRefreshReg = globalThis.$RefreshReg$;
+var prevRefreshSig = globalThis.$RefreshSig$;
+$parcel$ReactRefreshHelpers$54bd.prelude(module);
 
-},{}],"87xcX":[function(require,module,exports,__globalThis) {
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "default", ()=>NotesPage);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _noteCard = require("../../components/NoteCard/NoteCard");
+var _noteCardDefault = parcelHelpers.interopDefault(_noteCard);
+var _noteEditor = require("../../components/NoteEditor/NoteEditor");
+var _noteEditorDefault = parcelHelpers.interopDefault(_noteEditor);
+var _customisationBar = require("../../components/CustomisationBar/CustomisationBar");
+var _customisationBarDefault = parcelHelpers.interopDefault(_customisationBar);
+var _api = require("../../../../backend/api");
+var _s = $RefreshSig$();
+function NotesPage() {
+    _s();
+    const [notes, setNotes] = (0, _react.useState)([]);
+    const fetchNotes = async ()=>{
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user?.email) return alert('Please login first');
+        try {
+            const data = await (0, _api.postData)('/api/getnotes', {
+                email: user.email
+            });
+            if (data.success) setNotes(data.notes);
+        } catch (error) {
+            console.error('Failed to fetch notes:', error);
+        }
+    };
+    (0, _react.useEffect)(()=>{
+        fetchNotes();
+    }, []);
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        className: "container-fluid",
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _customisationBarDefault.default), {}, void 0, false, {
+                fileName: "frontend/src/pages/NotesPage/NotesPage.js",
+                lineNumber: 28,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "row",
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "col-2",
+                        style: {
+                            backgroundColor: '#9ecadb'
+                        },
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
+                                className: "my-4",
+                                children: "Your Notes"
+                            }, void 0, false, {
+                                fileName: "frontend/src/pages/NotesPage/NotesPage.js",
+                                lineNumber: 31,
+                                columnNumber: 11
+                            }, this),
+                            notes.map((note)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _noteCardDefault.default), {
+                                    note: note,
+                                    refreshNotes: fetchNotes
+                                }, note._id, false, {
+                                    fileName: "frontend/src/pages/NotesPage/NotesPage.js",
+                                    lineNumber: 33,
+                                    columnNumber: 13
+                                }, this))
+                        ]
+                    }, void 0, true, {
+                        fileName: "frontend/src/pages/NotesPage/NotesPage.js",
+                        lineNumber: 30,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "col-10 p-4",
+                        style: {
+                            backgroundColor: '#cce4ed'
+                        },
+                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _noteEditorDefault.default), {
+                            refreshNotes: fetchNotes
+                        }, void 0, false, {
+                            fileName: "frontend/src/pages/NotesPage/NotesPage.js",
+                            lineNumber: 37,
+                            columnNumber: 11
+                        }, this)
+                    }, void 0, false, {
+                        fileName: "frontend/src/pages/NotesPage/NotesPage.js",
+                        lineNumber: 36,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "frontend/src/pages/NotesPage/NotesPage.js",
+                lineNumber: 29,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "frontend/src/pages/NotesPage/NotesPage.js",
+        lineNumber: 27,
+        columnNumber: 5
+    }, this);
+}
+_s(NotesPage, "vOaC7rmji7ux6HtcIeocV+tl1oY=");
+_c = NotesPage;
+var _c;
+$RefreshReg$(_c, "NotesPage");
+
+  $parcel$ReactRefreshHelpers$54bd.postlude(module);
+} finally {
+  globalThis.$RefreshReg$ = prevRefreshReg;
+  globalThis.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","../../components/NoteCard/NoteCard":"aDR0f","../../components/NoteEditor/NoteEditor":"1EsdC","../../components/CustomisationBar/CustomisationBar":"4PBzb","../../../../backend/api":"3VpZi","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"aDR0f":[function(require,module,exports,__globalThis) {
+var $parcel$ReactRefreshHelpers$b886 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+$parcel$ReactRefreshHelpers$b886.init();
+var prevRefreshReg = globalThis.$RefreshReg$;
+var prevRefreshSig = globalThis.$RefreshSig$;
+$parcel$ReactRefreshHelpers$b886.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "default", ()=>NoteCard);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+function NoteCard({ note, refreshNotes }) {
+    const handleDelete = async ()=>{
+        const confirmDelete = window.confirm("Are you sure you want to delete this note?");
+        if (!confirmDelete) return;
+        const response = await fetch('/api/deletenote', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: note._id
+            })
+        });
+        const data = await response.json();
+        if (data.success) {
+            alert("Note deleted");
+            refreshNotes();
+        } else alert("Failed to delete note");
+    };
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        className: "card mx-2 my-2",
+        style: {
+            width: '18rem'
+        },
+        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+            className: "card-body",
+            children: [
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h5", {
+                    className: "card-title",
+                    children: note.title
+                }, void 0, false, {
+                    fileName: "frontend/src/components/NoteCard/NoteCard.js",
+                    lineNumber: 24,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h6", {
+                    className: "card-subtitle mb-2 text-muted",
+                    children: "Note Description"
+                }, void 0, false, {
+                    fileName: "frontend/src/components/NoteCard/NoteCard.js",
+                    lineNumber: 25,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                    className: "card-text",
+                    children: note.desc
+                }, void 0, false, {
+                    fileName: "frontend/src/components/NoteCard/NoteCard.js",
+                    lineNumber: 26,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
+                    href: `./updateNote.html?id=${note._id}`,
+                    className: "btn btn-warning btn-sm",
+                    children: "Edit"
+                }, void 0, false, {
+                    fileName: "frontend/src/components/NoteCard/NoteCard.js",
+                    lineNumber: 27,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                    onClick: handleDelete,
+                    className: "btn btn-danger btn-sm ms-2",
+                    children: "Delete"
+                }, void 0, false, {
+                    fileName: "frontend/src/components/NoteCard/NoteCard.js",
+                    lineNumber: 28,
+                    columnNumber: 9
+                }, this)
+            ]
+        }, void 0, true, {
+            fileName: "frontend/src/components/NoteCard/NoteCard.js",
+            lineNumber: 23,
+            columnNumber: 7
+        }, this)
+    }, void 0, false, {
+        fileName: "frontend/src/components/NoteCard/NoteCard.js",
+        lineNumber: 22,
+        columnNumber: 5
+    }, this);
+}
+_c = NoteCard;
+var _c;
+$RefreshReg$(_c, "NoteCard");
+
+  $parcel$ReactRefreshHelpers$b886.postlude(module);
+} finally {
+  globalThis.$RefreshReg$ = prevRefreshReg;
+  globalThis.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"1EsdC":[function(require,module,exports,__globalThis) {
+var $parcel$ReactRefreshHelpers$3398 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+$parcel$ReactRefreshHelpers$3398.init();
+var prevRefreshReg = globalThis.$RefreshReg$;
+var prevRefreshSig = globalThis.$RefreshSig$;
+$parcel$ReactRefreshHelpers$3398.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "default", ()=>NoteEditor);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _s = $RefreshSig$();
+function NoteEditor({ refreshNotes }) {
+    _s();
+    const [title, setTitle] = (0, _react.useState)('');
+    const [desc, setDesc] = (0, _react.useState)('');
+    const handleSubmit = async ()=>{
+        const email = JSON.parse(localStorage.getItem('user'))?.email;
+        const response = await fetch('/api/addnote', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                title,
+                desc,
+                email
+            })
+        });
+        const data = await response.json();
+        if (data.success) {
+            alert('Note created');
+            setTitle('');
+            setDesc('');
+            refreshNotes();
+        }
+    };
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
+                className: "my-4",
+                children: "Add notes"
+            }, void 0, false, {
+                fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
+                lineNumber: 25,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "mb-3",
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                        htmlFor: "title",
+                        className: "form-label",
+                        children: "Title"
+                    }, void 0, false, {
+                        fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
+                        lineNumber: 27,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                        type: "text",
+                        className: "form-control",
+                        id: "title",
+                        value: title,
+                        onChange: (e)=>setTitle(e.target.value)
+                    }, void 0, false, {
+                        fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
+                        lineNumber: 28,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "form-text",
+                        children: "just add title"
+                    }, void 0, false, {
+                        fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
+                        lineNumber: 29,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
+                lineNumber: 26,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "mb-3",
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                        htmlFor: "desc",
+                        className: "form-label",
+                        children: "Description"
+                    }, void 0, false, {
+                        fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
+                        lineNumber: 32,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("textarea", {
+                        className: "form-control",
+                        id: "desc",
+                        value: desc,
+                        onChange: (e)=>setDesc(e.target.value)
+                    }, void 0, false, {
+                        fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
+                        lineNumber: 33,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
+                lineNumber: 31,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                onClick: handleSubmit,
+                className: "btn btn-primary",
+                children: "Submit"
+            }, void 0, false, {
+                fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
+                lineNumber: 35,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true);
+}
+_s(NoteEditor, "qrPNaMgksLGf+78Ss7cy3/cuuUY=");
+_c = NoteEditor;
+var _c;
+$RefreshReg$(_c, "NoteEditor");
+
+  $parcel$ReactRefreshHelpers$3398.postlude(module);
+} finally {
+  globalThis.$RefreshReg$ = prevRefreshReg;
+  globalThis.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"4PBzb":[function(require,module,exports,__globalThis) {
+var $parcel$ReactRefreshHelpers$1db4 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+$parcel$ReactRefreshHelpers$1db4.init();
+var prevRefreshReg = globalThis.$RefreshReg$;
+var prevRefreshSig = globalThis.$RefreshSig$;
+$parcel$ReactRefreshHelpers$1db4.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "default", ()=>CustomisationBar);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _customisationBarCss = require("./CustomisationBar.css");
+function CustomisationBar() {
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        style: {
+            backgroundColor: 'lightgrey'
+        },
+        className: "p-2",
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("select", {
+                id: "fontPicker",
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                        value: "Arial",
+                        children: "Arial"
+                    }, void 0, false, {
+                        fileName: "frontend/src/components/CustomisationBar/CustomisationBar.js",
+                        lineNumber: 8,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                        value: "Georgia",
+                        children: "Georgia"
+                    }, void 0, false, {
+                        fileName: "frontend/src/components/CustomisationBar/CustomisationBar.js",
+                        lineNumber: 9,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                        value: "Courier New",
+                        children: "Courier New"
+                    }, void 0, false, {
+                        fileName: "frontend/src/components/CustomisationBar/CustomisationBar.js",
+                        lineNumber: 10,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                        value: "Times New Roman",
+                        children: "Times New Roman"
+                    }, void 0, false, {
+                        fileName: "frontend/src/components/CustomisationBar/CustomisationBar.js",
+                        lineNumber: 11,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                        value: "Verdana",
+                        children: "Verdana"
+                    }, void 0, false, {
+                        fileName: "frontend/src/components/CustomisationBar/CustomisationBar.js",
+                        lineNumber: 12,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
+                        value: "Comic Sans MS",
+                        children: "Comic Sans"
+                    }, void 0, false, {
+                        fileName: "frontend/src/components/CustomisationBar/CustomisationBar.js",
+                        lineNumber: 13,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "frontend/src/components/CustomisationBar/CustomisationBar.js",
+                lineNumber: 7,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                className: "btn",
+                children: "BOLD"
+            }, void 0, false, {
+                fileName: "frontend/src/components/CustomisationBar/CustomisationBar.js",
+                lineNumber: 15,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                className: "btn",
+                children: "ITALICS"
+            }, void 0, false, {
+                fileName: "frontend/src/components/CustomisationBar/CustomisationBar.js",
+                lineNumber: 16,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                className: "btn",
+                children: "UNDERLINED"
+            }, void 0, false, {
+                fileName: "frontend/src/components/CustomisationBar/CustomisationBar.js",
+                lineNumber: 17,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "frontend/src/components/CustomisationBar/CustomisationBar.js",
+        lineNumber: 6,
+        columnNumber: 5
+    }, this);
+}
+_c = CustomisationBar;
+var _c;
+$RefreshReg$(_c, "CustomisationBar");
+
+  $parcel$ReactRefreshHelpers$1db4.postlude(module);
+} finally {
+  globalThis.$RefreshReg$ = prevRefreshReg;
+  globalThis.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","./CustomisationBar.css":"85QiB","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"85QiB":[function() {},{}],"3VpZi":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "postData", ()=>postData);
+const API_BASE_URL = 'http://localhost:5073';
+async function postData(endpoint, data) {
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+    return response.json();
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"87xcX":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$1839 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$1839.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -25948,33 +26454,26 @@ var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _reactRouterDom = require("react-router-dom");
+var _api = require("../../../../backend/api");
+var _loginPromptCss = require("./LoginPrompt.css");
 var _s = $RefreshSig$();
 function LoginPrompt() {
     _s();
     const [email, setEmail] = (0, _react.useState)('');
     const [password, setPassword] = (0, _react.useState)('');
+    const [loginMsg, setLoginMsg] = (0, _react.useState)('\u00A0');
     const navigate = (0, _reactRouterDom.useNavigate)();
-    const postData = async (url = '', data = {})=>{
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
-        return await response.json();
-    };
     const handleLogin = async (e)=>{
         e.preventDefault();
-        const res = await postData('/login', {
+        const res = await (0, _api.postData)('/api/login', {
             email,
             password
         });
         if (res.success && res.user) {
             localStorage.setItem('user', JSON.stringify(res.user));
-            alert('Login successful!');
+            setLoginMsg('');
             navigate('/');
-        } else alert(res.message || 'Login failed.');
+        } else setLoginMsg(res.message || 'Login failed.');
     };
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         className: "flex stretch",
@@ -25991,7 +26490,7 @@ function LoginPrompt() {
                     children: "Login"
                 }, void 0, false, {
                     fileName: "frontend/src/components/LoginPrompt/LoginPrompt.js",
-                    lineNumber: 35,
+                    lineNumber: 29,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("form", {
@@ -26006,7 +26505,7 @@ function LoginPrompt() {
                                     children: "Email address"
                                 }, void 0, false, {
                                     fileName: "frontend/src/components/LoginPrompt/LoginPrompt.js",
-                                    lineNumber: 38,
+                                    lineNumber: 32,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -26015,6 +26514,36 @@ function LoginPrompt() {
                                     id: "email",
                                     value: email,
                                     onChange: (e)=>setEmail(e.target.value),
+                                    required: true
+                                }, void 0, false, {
+                                    fileName: "frontend/src/components/LoginPrompt/LoginPrompt.js",
+                                    lineNumber: 33,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "frontend/src/components/LoginPrompt/LoginPrompt.js",
+                            lineNumber: 31,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                            className: "mb-3",
+                            children: [
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                    htmlFor: "password",
+                                    className: "form-label",
+                                    children: "Password"
+                                }, void 0, false, {
+                                    fileName: "frontend/src/components/LoginPrompt/LoginPrompt.js",
+                                    lineNumber: 38,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                    type: "password",
+                                    className: "form-control",
+                                    id: "password",
+                                    value: password,
+                                    onChange: (e)=>setPassword(e.target.value),
                                     required: true
                                 }, void 0, false, {
                                     fileName: "frontend/src/components/LoginPrompt/LoginPrompt.js",
@@ -26028,33 +26557,11 @@ function LoginPrompt() {
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                            className: "mb-3",
-                            children: [
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                    htmlFor: "password",
-                                    className: "form-label",
-                                    children: "Password"
-                                }, void 0, false, {
-                                    fileName: "frontend/src/components/LoginPrompt/LoginPrompt.js",
-                                    lineNumber: 44,
-                                    columnNumber: 13
-                                }, this),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                    type: "password",
-                                    className: "form-control",
-                                    id: "password",
-                                    value: password,
-                                    onChange: (e)=>setPassword(e.target.value),
-                                    required: true
-                                }, void 0, false, {
-                                    fileName: "frontend/src/components/LoginPrompt/LoginPrompt.js",
-                                    lineNumber: 45,
-                                    columnNumber: 13
-                                }, this)
-                            ]
-                        }, void 0, true, {
+                            id: "loginMsg",
+                            children: loginMsg
+                        }, void 0, false, {
                             fileName: "frontend/src/components/LoginPrompt/LoginPrompt.js",
-                            lineNumber: 43,
+                            lineNumber: 42,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -26063,7 +26570,7 @@ function LoginPrompt() {
                             children: "Login"
                         }, void 0, false, {
                             fileName: "frontend/src/components/LoginPrompt/LoginPrompt.js",
-                            lineNumber: 49,
+                            lineNumber: 43,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
@@ -26072,28 +26579,28 @@ function LoginPrompt() {
                             children: "Create Account"
                         }, void 0, false, {
                             fileName: "frontend/src/components/LoginPrompt/LoginPrompt.js",
-                            lineNumber: 50,
+                            lineNumber: 44,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "frontend/src/components/LoginPrompt/LoginPrompt.js",
-                    lineNumber: 36,
+                    lineNumber: 30,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "frontend/src/components/LoginPrompt/LoginPrompt.js",
-            lineNumber: 34,
+            lineNumber: 28,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "frontend/src/components/LoginPrompt/LoginPrompt.js",
-        lineNumber: 33,
+        lineNumber: 27,
         columnNumber: 5
     }, this);
 }
-_s(LoginPrompt, "OqFWRqNCJ3BNGyYdED5qKBGtbCw=", false, function() {
+_s(LoginPrompt, "eh3/wOE+HHOZlQmNiAVT8A4M8pI=", false, function() {
     return [
         (0, _reactRouterDom.useNavigate)
     ];
@@ -26107,7 +26614,7 @@ $RefreshReg$(_c, "LoginPrompt");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-router-dom":"61z4w","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"eANPt":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-router-dom":"61z4w","../../../../backend/api":"3VpZi","./LoginPrompt.css":"3KbwB","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"3KbwB":[function() {},{}],"eANPt":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$5cd5 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$5cd5.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -26122,29 +26629,20 @@ var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _reactRouterDom = require("react-router-dom");
+var _api = require("../../../../backend/api");
 var _s = $RefreshSig$();
 function SignupPrompt() {
     _s();
     const [email, setEmail] = (0, _react.useState)('');
     const [password, setPassword] = (0, _react.useState)('');
     const navigate = (0, _reactRouterDom.useNavigate)();
-    const postData = async (url = '', data = {})=>{
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
-        return response.json();
-    };
     const handleSignup = async (e)=>{
         e.preventDefault();
         if (!email || !password) {
             alert('Please fill all fields');
             return;
         }
-        const res = await postData('/signup', {
+        const res = await (0, _api.postData)('/api/signup', {
             email,
             password
         });
@@ -26168,7 +26666,7 @@ function SignupPrompt() {
                     children: "Create Account"
                 }, void 0, false, {
                     fileName: "frontend/src/components/SignupPrompt/SignupPrompt.js",
-                    lineNumber: 36,
+                    lineNumber: 28,
                     columnNumber: 13
                 }, this),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("form", {
@@ -26183,7 +26681,7 @@ function SignupPrompt() {
                                     children: "Email address"
                                 }, void 0, false, {
                                     fileName: "frontend/src/components/SignupPrompt/SignupPrompt.js",
-                                    lineNumber: 39,
+                                    lineNumber: 31,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -26196,13 +26694,13 @@ function SignupPrompt() {
                                     autoComplete: "username"
                                 }, void 0, false, {
                                     fileName: "frontend/src/components/SignupPrompt/SignupPrompt.js",
-                                    lineNumber: 40,
+                                    lineNumber: 32,
                                     columnNumber: 17
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "frontend/src/components/SignupPrompt/SignupPrompt.js",
-                            lineNumber: 38,
+                            lineNumber: 30,
                             columnNumber: 17
                         }, this),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -26214,7 +26712,7 @@ function SignupPrompt() {
                                     children: "Password"
                                 }, void 0, false, {
                                     fileName: "frontend/src/components/SignupPrompt/SignupPrompt.js",
-                                    lineNumber: 52,
+                                    lineNumber: 44,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -26227,13 +26725,20 @@ function SignupPrompt() {
                                     autoComplete: "new-password"
                                 }, void 0, false, {
                                     fileName: "frontend/src/components/SignupPrompt/SignupPrompt.js",
-                                    lineNumber: 53,
+                                    lineNumber: 45,
                                     columnNumber: 17
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "frontend/src/components/SignupPrompt/SignupPrompt.js",
-                            lineNumber: 51,
+                            lineNumber: 43,
+                            columnNumber: 17
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                            id: "signupMsg"
+                        }, void 0, false, {
+                            fileName: "frontend/src/components/SignupPrompt/SignupPrompt.js",
+                            lineNumber: 55,
                             columnNumber: 17
                         }, this),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -26242,7 +26747,7 @@ function SignupPrompt() {
                             children: "Sign up"
                         }, void 0, false, {
                             fileName: "frontend/src/components/SignupPrompt/SignupPrompt.js",
-                            lineNumber: 64,
+                            lineNumber: 56,
                             columnNumber: 17
                         }, this),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
@@ -26251,24 +26756,24 @@ function SignupPrompt() {
                             children: "Log into existing account"
                         }, void 0, false, {
                             fileName: "frontend/src/components/SignupPrompt/SignupPrompt.js",
-                            lineNumber: 65,
+                            lineNumber: 57,
                             columnNumber: 17
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "frontend/src/components/SignupPrompt/SignupPrompt.js",
-                    lineNumber: 37,
+                    lineNumber: 29,
                     columnNumber: 13
                 }, this)
             ]
         }, void 0, true, {
             fileName: "frontend/src/components/SignupPrompt/SignupPrompt.js",
-            lineNumber: 35,
+            lineNumber: 27,
             columnNumber: 9
         }, this)
     }, void 0, false, {
         fileName: "frontend/src/components/SignupPrompt/SignupPrompt.js",
-        lineNumber: 34,
+        lineNumber: 26,
         columnNumber: 5
     }, this);
 }
@@ -26286,7 +26791,7 @@ $RefreshReg$(_c, "SignupPrompt");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-router-dom":"61z4w","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"dk54F":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-router-dom":"61z4w","../../../../backend/api":"3VpZi","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"dk54F":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$9115 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$9115.init();
 var prevRefreshReg = globalThis.$RefreshReg$;

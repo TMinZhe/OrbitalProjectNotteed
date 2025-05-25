@@ -30,6 +30,24 @@
   padding: .5rem 1rem;
 }
 
+.navbar-notes {
+  color: #fff;
+  margin-right: 1rem;
+  text-decoration: none;
+}
+
+.navbar-notes:hover {
+  color: #d3d3d3;
+}
+
+.navbar-username {
+  color: #fff;
+}
+
+#loginMsg {
+  color: red;
+}
+
 * {
   box-sizing: border-box;
   font-family: Comfortaa;

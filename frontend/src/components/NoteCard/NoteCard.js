@@ -4,7 +4,7 @@ export default function NoteCard({ note, refreshNotes }) {
   const handleDelete = async () => {
     const confirmDelete = window.confirm("Are you sure you want to delete this note?");
     if (!confirmDelete) return;
-    const response = await fetch('/deletenote', {
+    const response = await fetch('/api/deletenote', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: note._id })

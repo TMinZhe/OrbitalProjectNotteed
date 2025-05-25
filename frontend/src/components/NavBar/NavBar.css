@@ -34,3 +34,19 @@
   padding-left: 1rem;
   padding-right: 1rem;
 }
+
+.navbar-notes
+{
+  color: white;
+  text-decoration: none;
+  margin-right: 1rem;
+}
+
+.navbar-notes:hover {
+  color: lightgrey;
+}
+
+.navbar-username
+{
+  color: white;
+}
