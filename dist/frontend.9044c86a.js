@@ -23485,6 +23485,7 @@ function NavBar() {
             const storedUser = localStorage.getItem('user');
             setUser(storedUser ? JSON.parse(storedUser) : null);
         };
+        syncUser();
         window.addEventListener('storage', syncUser);
         return ()=>window.removeEventListener('storage', syncUser);
     }, []);
@@ -23500,7 +23501,7 @@ function NavBar() {
                     children: "NOTTEED"
                 }, void 0, false, {
                     fileName: "frontend/src/components/NavBar/NavBar.js",
-                    lineNumber: 23,
+                    lineNumber: 25,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -23511,7 +23512,6 @@ function NavBar() {
                     },
                     children: user && user.email ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                         className: "navbar-user",
-                        onClick: ()=>setShowPrompt(!showPrompt),
                         children: [
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
                                 className: "navbar-notes",
@@ -23519,36 +23519,37 @@ function NavBar() {
                                 children: "Notes"
                             }, void 0, false, {
                                 fileName: "frontend/src/components/NavBar/NavBar.js",
-                                lineNumber: 27,
+                                lineNumber: 29,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
                                 className: "navbar-username",
+                                onClick: ()=>setShowPrompt(!showPrompt),
                                 children: [
                                     "Welcome, ",
                                     user.username || user.email
                                 ]
                             }, void 0, true, {
                                 fileName: "frontend/src/components/NavBar/NavBar.js",
-                                lineNumber: 28,
+                                lineNumber: 30,
                                 columnNumber: 15
                             }, this),
                             showPrompt && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                                 className: "account-prompt",
                                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _accountPromptDefault.default), {}, void 0, false, {
                                     fileName: "frontend/src/components/NavBar/NavBar.js",
-                                    lineNumber: 29,
+                                    lineNumber: 31,
                                     columnNumber: 63
                                 }, this)
                             }, void 0, false, {
                                 fileName: "frontend/src/components/NavBar/NavBar.js",
-                                lineNumber: 29,
+                                lineNumber: 31,
                                 columnNumber: 31
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "frontend/src/components/NavBar/NavBar.js",
-                        lineNumber: 26,
+                        lineNumber: 28,
                         columnNumber: 13
                     }, this) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
                         children: [
@@ -23559,12 +23560,12 @@ function NavBar() {
                                     children: "Login"
                                 }, void 0, false, {
                                     fileName: "frontend/src/components/NavBar/NavBar.js",
-                                    lineNumber: 33,
+                                    lineNumber: 35,
                                     columnNumber: 47
                                 }, this)
                             }, void 0, false, {
                                 fileName: "frontend/src/components/NavBar/NavBar.js",
-                                lineNumber: 33,
+                                lineNumber: 35,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
@@ -23574,30 +23575,30 @@ function NavBar() {
                                     children: "Signup"
                                 }, void 0, false, {
                                     fileName: "frontend/src/components/NavBar/NavBar.js",
-                                    lineNumber: 34,
+                                    lineNumber: 36,
                                     columnNumber: 48
                                 }, this)
                             }, void 0, false, {
                                 fileName: "frontend/src/components/NavBar/NavBar.js",
-                                lineNumber: 34,
+                                lineNumber: 36,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true)
                 }, void 0, false, {
                     fileName: "frontend/src/components/NavBar/NavBar.js",
-                    lineNumber: 24,
+                    lineNumber: 26,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "frontend/src/components/NavBar/NavBar.js",
-            lineNumber: 22,
+            lineNumber: 24,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "frontend/src/components/NavBar/NavBar.js",
-        lineNumber: 21,
+        lineNumber: 23,
         columnNumber: 5
     }, this);
 }
@@ -25994,6 +25995,7 @@ var _noteEditorDefault = parcelHelpers.interopDefault(_noteEditor);
 var _customisationBar = require("../../components/CustomisationBar/CustomisationBar");
 var _customisationBarDefault = parcelHelpers.interopDefault(_customisationBar);
 var _api = require("../../../../backend/api");
+var _notesPageCss = require("./NotesPage.css");
 var _s = $RefreshSig$();
 function NotesPage() {
     _s();
@@ -26010,32 +26012,70 @@ function NotesPage() {
             console.error('Failed to fetch notes:', error);
         }
     };
+    const handleAddNewNote = async ()=>{
+        const email = JSON.parse(localStorage.getItem('user'))?.email;
+        if (!email) return alert('Please login first');
+        // Use current notes state to determine next title
+        const existingTitles = notes.map((note)=>note.title);
+        let counter = 1;
+        let newTitle = `New Note ${counter}`;
+        while(existingTitles.includes(newTitle)){
+            counter++;
+            newTitle = `New Note ${counter}`;
+        }
+        const data = await (0, _api.postData)('/api/addnote', {
+            title: newTitle,
+            desc: ' ',
+            email: email
+        });
+        if (data.success) fetchNotes();
+    };
     (0, _react.useEffect)(()=>{
         fetchNotes();
     }, []);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        className: "container-fluid",
+        className: "notes-page",
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _customisationBarDefault.default), {}, void 0, false, {
                 fileName: "frontend/src/pages/NotesPage/NotesPage.js",
-                lineNumber: 28,
+                lineNumber: 53,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                className: "row",
+                className: "notes-content",
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        className: "col-2",
+                        className: "note-list",
                         style: {
                             backgroundColor: '#9ecadb'
                         },
                         children: [
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
-                                className: "my-4",
-                                children: "Your Notes"
-                            }, void 0, false, {
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                style: {
+                                    display: 'flex',
+                                    gap: '1rem'
+                                },
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
+                                        children: "Your Notes"
+                                    }, void 0, false, {
+                                        fileName: "frontend/src/pages/NotesPage/NotesPage.js",
+                                        lineNumber: 57,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                        className: "add-note-btn",
+                                        onClick: handleAddNewNote,
+                                        children: "+"
+                                    }, void 0, false, {
+                                        fileName: "frontend/src/pages/NotesPage/NotesPage.js",
+                                        lineNumber: 58,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
                                 fileName: "frontend/src/pages/NotesPage/NotesPage.js",
-                                lineNumber: 31,
+                                lineNumber: 56,
                                 columnNumber: 11
                             }, this),
                             notes.map((note)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _noteCardDefault.default), {
@@ -26043,17 +26083,17 @@ function NotesPage() {
                                     refreshNotes: fetchNotes
                                 }, note._id, false, {
                                     fileName: "frontend/src/pages/NotesPage/NotesPage.js",
-                                    lineNumber: 33,
+                                    lineNumber: 61,
                                     columnNumber: 13
                                 }, this))
                         ]
                     }, void 0, true, {
                         fileName: "frontend/src/pages/NotesPage/NotesPage.js",
-                        lineNumber: 30,
+                        lineNumber: 55,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        className: "col-10 p-4",
+                        className: "note-editor",
                         style: {
                             backgroundColor: '#cce4ed'
                         },
@@ -26061,24 +26101,24 @@ function NotesPage() {
                             refreshNotes: fetchNotes
                         }, void 0, false, {
                             fileName: "frontend/src/pages/NotesPage/NotesPage.js",
-                            lineNumber: 37,
+                            lineNumber: 65,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "frontend/src/pages/NotesPage/NotesPage.js",
-                        lineNumber: 36,
+                        lineNumber: 64,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "frontend/src/pages/NotesPage/NotesPage.js",
-                lineNumber: 29,
+                lineNumber: 54,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "frontend/src/pages/NotesPage/NotesPage.js",
-        lineNumber: 27,
+        lineNumber: 52,
         columnNumber: 5
     }, this);
 }
@@ -26092,7 +26132,7 @@ $RefreshReg$(_c, "NotesPage");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","../../components/NoteCard/NoteCard":"aDR0f","../../components/NoteEditor/NoteEditor":"1EsdC","../../components/CustomisationBar/CustomisationBar":"4PBzb","../../../../backend/api":"3VpZi","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"aDR0f":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","../../components/NoteCard/NoteCard":"aDR0f","../../components/NoteEditor/NoteEditor":"1EsdC","../../components/CustomisationBar/CustomisationBar":"4PBzb","../../../../backend/api":"3VpZi","./NotesPage.css":"jrOO4","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"aDR0f":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$b886 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$b886.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -26106,24 +26146,23 @@ parcelHelpers.export(exports, "default", ()=>NoteCard);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
+var _api = require("../../../../backend/api");
 function NoteCard({ note, refreshNotes }) {
     const handleDelete = async ()=>{
         const confirmDelete = window.confirm("Are you sure you want to delete this note?");
         if (!confirmDelete) return;
-        const response = await fetch('/api/deletenote', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
+        try {
+            const data = await (0, _api.postData)('/api/deletenote', {
                 id: note._id
-            })
-        });
-        const data = await response.json();
-        if (data.success) {
-            alert("Note deleted");
-            refreshNotes();
-        } else alert("Failed to delete note");
+            });
+            if (data.success) {
+                alert("Note deleted");
+                refreshNotes();
+            } else alert("Failed to delete note");
+        } catch (error) {
+            alert("Error deleting note");
+            console.error(error);
+        }
     };
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         className: "card mx-2 my-2",
@@ -26138,7 +26177,7 @@ function NoteCard({ note, refreshNotes }) {
                     children: note.title
                 }, void 0, false, {
                     fileName: "frontend/src/components/NoteCard/NoteCard.js",
-                    lineNumber: 24,
+                    lineNumber: 26,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h6", {
@@ -26146,7 +26185,7 @@ function NoteCard({ note, refreshNotes }) {
                     children: "Note Description"
                 }, void 0, false, {
                     fileName: "frontend/src/components/NoteCard/NoteCard.js",
-                    lineNumber: 25,
+                    lineNumber: 27,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -26154,7 +26193,7 @@ function NoteCard({ note, refreshNotes }) {
                     children: note.desc
                 }, void 0, false, {
                     fileName: "frontend/src/components/NoteCard/NoteCard.js",
-                    lineNumber: 26,
+                    lineNumber: 28,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
@@ -26163,7 +26202,7 @@ function NoteCard({ note, refreshNotes }) {
                     children: "Edit"
                 }, void 0, false, {
                     fileName: "frontend/src/components/NoteCard/NoteCard.js",
-                    lineNumber: 27,
+                    lineNumber: 29,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -26172,18 +26211,18 @@ function NoteCard({ note, refreshNotes }) {
                     children: "Delete"
                 }, void 0, false, {
                     fileName: "frontend/src/components/NoteCard/NoteCard.js",
-                    lineNumber: 28,
+                    lineNumber: 30,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "frontend/src/components/NoteCard/NoteCard.js",
-            lineNumber: 23,
+            lineNumber: 25,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "frontend/src/components/NoteCard/NoteCard.js",
-        lineNumber: 22,
+        lineNumber: 24,
         columnNumber: 5
     }, this);
 }
@@ -26196,7 +26235,23 @@ $RefreshReg$(_c, "NoteCard");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"1EsdC":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","../../../../backend/api":"3VpZi"}],"3VpZi":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "postData", ()=>postData);
+const API_BASE_URL = 'http://localhost:5073';
+async function postData(endpoint, data) {
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+    return response.json();
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"1EsdC":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$3398 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$3398.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -26238,14 +26293,6 @@ function NoteEditor({ refreshNotes }) {
     };
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
         children: [
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
-                className: "my-4",
-                children: "Add notes"
-            }, void 0, false, {
-                fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                lineNumber: 25,
-                columnNumber: 7
-            }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 className: "mb-3",
                 children: [
@@ -26255,7 +26302,7 @@ function NoteEditor({ refreshNotes }) {
                         children: "Title"
                     }, void 0, false, {
                         fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                        lineNumber: 27,
+                        lineNumber: 26,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -26266,21 +26313,13 @@ function NoteEditor({ refreshNotes }) {
                         onChange: (e)=>setTitle(e.target.value)
                     }, void 0, false, {
                         fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                        lineNumber: 28,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        className: "form-text",
-                        children: "just add title"
-                    }, void 0, false, {
-                        fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                        lineNumber: 29,
+                        lineNumber: 27,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                lineNumber: 26,
+                lineNumber: 25,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -26292,7 +26331,7 @@ function NoteEditor({ refreshNotes }) {
                         children: "Description"
                     }, void 0, false, {
                         fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                        lineNumber: 32,
+                        lineNumber: 30,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("textarea", {
@@ -26302,13 +26341,13 @@ function NoteEditor({ refreshNotes }) {
                         onChange: (e)=>setDesc(e.target.value)
                     }, void 0, false, {
                         fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                        lineNumber: 33,
+                        lineNumber: 31,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                lineNumber: 31,
+                lineNumber: 29,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -26317,7 +26356,7 @@ function NoteEditor({ refreshNotes }) {
                 children: "Submit"
             }, void 0, false, {
                 fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                lineNumber: 35,
+                lineNumber: 33,
                 columnNumber: 7
             }, this)
         ]
@@ -26353,7 +26392,7 @@ function CustomisationBar() {
         style: {
             backgroundColor: 'lightgrey'
         },
-        className: "p-2",
+        className: "customisation-bar",
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("select", {
                 id: "fontPicker",
@@ -26452,23 +26491,7 @@ $RefreshReg$(_c, "CustomisationBar");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","./CustomisationBar.css":"85QiB","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"85QiB":[function() {},{}],"3VpZi":[function(require,module,exports,__globalThis) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "postData", ()=>postData);
-const API_BASE_URL = 'http://localhost:5073';
-async function postData(endpoint, data) {
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    });
-    return response.json();
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"87xcX":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","./CustomisationBar.css":"85QiB","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"85QiB":[function() {},{}],"jrOO4":[function() {},{}],"87xcX":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$1839 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$1839.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -26877,7 +26900,7 @@ $RefreshReg$(_c, "SignupPrompt");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-router-dom":"61z4w","../../../../backend/api":"3VpZi","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","./SignupPrompt.css":"lTPv7"}],"lTPv7":[function() {},{}],"dk54F":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-router-dom":"61z4w","../../../../backend/api":"3VpZi","./SignupPrompt.css":"lTPv7","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"lTPv7":[function() {},{}],"dk54F":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$9115 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$9115.init();
 var prevRefreshReg = globalThis.$RefreshReg$;

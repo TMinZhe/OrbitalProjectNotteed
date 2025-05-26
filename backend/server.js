@@ -57,8 +57,18 @@ app.post("/api/signup", async (req, res) => {
 });
 
 app.post("/api/addnote", async (req, res) => {
-  let note = await Note.create(req.body);
-  res.status(200).json({ success: true, note });
+  try {
+    const { title, desc, email } = req.body;
+    if (!title || !email) {
+      return res.status(400).json({ success: false, message: "Title and email are required" });
+    }
+
+    const note = await Note.create({ title, desc, email });
+    res.status(200).json({ success: true, note });
+  } catch (err) {
+    console.error("Failed to add note:", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
 });
 
 app.post("/api/updatenote", async (req, res) => {

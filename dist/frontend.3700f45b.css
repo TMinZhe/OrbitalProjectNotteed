@@ -58,6 +58,33 @@
   top: 110%;
 }
 
+.notes-page {
+  height: 100%;
+}
+
+.notes-content {
+  flex-direction: row;
+  flex: 1;
+  height: 100%;
+  display: flex;
+}
+
+.note-list {
+  flex: 0 0 20%;
+  height: 100%;
+  padding: 1rem;
+}
+
+.note-editor {
+  flex: 0 0 80%;
+  height: 100%;
+}
+
+.add-note-btn {
+  border-radius: 1rem;
+  font-size: 1rem;
+}
+
 #loginMsg, #signupMsg {
   color: red;
 }

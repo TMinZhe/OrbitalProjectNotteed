@@ -6,15 +6,17 @@ export default function NavBar() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-  const syncUser = () => {
-    const storedUser = localStorage.getItem('user');
-    setUser(storedUser ? JSON.parse(storedUser) : null);
-  };
+    const syncUser = () => {
+      const storedUser = localStorage.getItem('user');
+      setUser(storedUser ? JSON.parse(storedUser) : null);
+    };
 
-  window.addEventListener('storage', syncUser);
-  return () => window.removeEventListener('storage', syncUser);
+    syncUser();
+
+    window.addEventListener('storage', syncUser);
+    return () => window.removeEventListener('storage', syncUser);
   }, []);
-  
+
   const [showPrompt, setShowPrompt] = useState(false);
 
   return (
@@ -23,9 +25,9 @@ export default function NavBar() {
         <a className="navbar-name" href="/">NOTTEED</a>
         <div className="navbar-account" style={{ display: 'flex', gap: '16px' }}>
           {user && user.email ? (
-            <div className='navbar-user' onClick={() => setShowPrompt(!showPrompt)}>
+            <div className='navbar-user'>
               <a className="navbar-notes" href="/notes">Notes</a>
-              <span className="navbar-username">Welcome, {user.username || user.email}</span>
+              <span className="navbar-username" onClick={() => setShowPrompt(!showPrompt)}>Welcome, {user.username || user.email}</span>
               {showPrompt && (<div className='account-prompt'><AccountPrompt /></div>)}
             </ div>
           ) : (

@@ -22,11 +22,9 @@ export default function NoteEditor({ refreshNotes }) {
 
   return (
     <>
-      <h1 className="my-4">Add notes</h1>
       <div className="mb-3">
         <label htmlFor="title" className="form-label">Title</label>
         <input type="text" className="form-control" id="title" value={title} onChange={e => setTitle(e.target.value)} />
-        <div className="form-text">just add title</div>
       </div>
       <div className="mb-3">
         <label htmlFor="desc" className="form-label">Description</label>

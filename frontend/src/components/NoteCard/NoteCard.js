@@ -1,20 +1,22 @@
 import React from 'react';
+import { postData } from '../../../../backend/api';
 
 export default function NoteCard({ note, refreshNotes }) {
   const handleDelete = async () => {
     const confirmDelete = window.confirm("Are you sure you want to delete this note?");
     if (!confirmDelete) return;
-    const response = await fetch('/api/deletenote', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: note._id })
-    });
-    const data = await response.json();
-    if (data.success) {
-      alert("Note deleted");
-      refreshNotes();
-    } else {
-      alert("Failed to delete note");
+
+    try {
+      const data = await postData('/api/deletenote', { id: note._id });
+      if (data.success) {
+        alert("Note deleted");
+        refreshNotes();
+      } else {
+        alert("Failed to delete note");
+      }
+    } catch (error) {
+      alert("Error deleting note");
+      console.error(error);
     }
   };
 

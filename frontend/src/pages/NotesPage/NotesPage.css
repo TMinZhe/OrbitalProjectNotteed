@@ -1,0 +1,31 @@
+.notes-page
+{
+    height: 100%;
+}
+
+.notes-content
+{
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    height: 100%;
+}
+
+.note-list
+{
+    flex: 0 0 20%;
+    height: 100%;
+    padding: 1rem;
+}
+
+.note-editor
+{
+    flex: 0 0 80%;
+    height: 100%;
+}
+
+.add-note-btn
+{
+    font-size: 1rem;
+    border-radius: 1rem;
+}
