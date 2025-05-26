@@ -24,7 +24,6 @@ export default function NotesPage() {
     const email = JSON.parse(localStorage.getItem('user'))?.email;
     if (!email) return alert('Please login first');
 
-    // Use current notes state to determine next title
     const existingTitles = notes.map(note => note.title);
     let counter = 1;
     let newTitle = `New Note ${counter}`;
@@ -35,7 +34,7 @@ export default function NotesPage() {
 
     const data = await postData('/api/addnote', {
       title: newTitle,
-      desc: ' ',
+      desc: '',
       email: email
     });
 

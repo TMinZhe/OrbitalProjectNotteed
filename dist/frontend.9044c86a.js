@@ -26015,7 +26015,6 @@ function NotesPage() {
     const handleAddNewNote = async ()=>{
         const email = JSON.parse(localStorage.getItem('user'))?.email;
         if (!email) return alert('Please login first');
-        // Use current notes state to determine next title
         const existingTitles = notes.map((note)=>note.title);
         let counter = 1;
         let newTitle = `New Note ${counter}`;
@@ -26025,7 +26024,7 @@ function NotesPage() {
         }
         const data = await (0, _api.postData)('/api/addnote', {
             title: newTitle,
-            desc: ' ',
+            desc: '',
             email: email
         });
         if (data.success) fetchNotes();
@@ -26038,7 +26037,7 @@ function NotesPage() {
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _customisationBarDefault.default), {}, void 0, false, {
                 fileName: "frontend/src/pages/NotesPage/NotesPage.js",
-                lineNumber: 53,
+                lineNumber: 52,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -26060,7 +26059,7 @@ function NotesPage() {
                                         children: "Your Notes"
                                     }, void 0, false, {
                                         fileName: "frontend/src/pages/NotesPage/NotesPage.js",
-                                        lineNumber: 57,
+                                        lineNumber: 56,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -26069,13 +26068,13 @@ function NotesPage() {
                                         children: "+"
                                     }, void 0, false, {
                                         fileName: "frontend/src/pages/NotesPage/NotesPage.js",
-                                        lineNumber: 58,
+                                        lineNumber: 57,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "frontend/src/pages/NotesPage/NotesPage.js",
-                                lineNumber: 56,
+                                lineNumber: 55,
                                 columnNumber: 11
                             }, this),
                             notes.map((note)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _noteCardDefault.default), {
@@ -26083,13 +26082,13 @@ function NotesPage() {
                                     refreshNotes: fetchNotes
                                 }, note._id, false, {
                                     fileName: "frontend/src/pages/NotesPage/NotesPage.js",
-                                    lineNumber: 61,
+                                    lineNumber: 60,
                                     columnNumber: 13
                                 }, this))
                         ]
                     }, void 0, true, {
                         fileName: "frontend/src/pages/NotesPage/NotesPage.js",
-                        lineNumber: 55,
+                        lineNumber: 54,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -26101,24 +26100,24 @@ function NotesPage() {
                             refreshNotes: fetchNotes
                         }, void 0, false, {
                             fileName: "frontend/src/pages/NotesPage/NotesPage.js",
-                            lineNumber: 65,
+                            lineNumber: 64,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "frontend/src/pages/NotesPage/NotesPage.js",
-                        lineNumber: 64,
+                        lineNumber: 63,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "frontend/src/pages/NotesPage/NotesPage.js",
-                lineNumber: 54,
+                lineNumber: 53,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "frontend/src/pages/NotesPage/NotesPage.js",
-        lineNumber: 52,
+        lineNumber: 51,
         columnNumber: 5
     }, this);
 }
@@ -26147,7 +26146,12 @@ var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _api = require("../../../../backend/api");
+var _noteCardCss = require("./NoteCard.css");
+var _s = $RefreshSig$();
 function NoteCard({ note, refreshNotes }) {
+    _s();
+    const [isEditing, setIsEditing] = (0, _react.useState)(false);
+    const [title, setTitle] = (0, _react.useState)(note.title);
     const handleDelete = async ()=>{
         const confirmDelete = window.confirm("Are you sure you want to delete this note?");
         if (!confirmDelete) return;
@@ -26155,77 +26159,105 @@ function NoteCard({ note, refreshNotes }) {
             const data = await (0, _api.postData)('/api/deletenote', {
                 id: note._id
             });
-            if (data.success) {
-                alert("Note deleted");
-                refreshNotes();
-            } else alert("Failed to delete note");
+            if (data.success) refreshNotes();
+            else alert("Failed to delete note");
         } catch (error) {
             alert("Error deleting note");
             console.error(error);
         }
     };
+    const handleTitleClick = ()=>setIsEditing(true);
+    const handleTitleChange = (e)=>setTitle(e.target.value);
+    const handleTitleBlur = async ()=>{
+        setIsEditing(false);
+        if (title !== note.title) try {
+            const data = await (0, _api.postData)('/api/updatenote', {
+                id: note._id,
+                title,
+                desc: note.desc
+            });
+            if (data.success) refreshNotes();
+            else alert("Failed to update title");
+        } catch (error) {
+            alert("Error updating title");
+            console.error(error);
+        }
+    };
+    const handleTitleKeyDown = (e)=>{
+        if (e.key === 'Enter') e.target.blur();
+    };
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        className: "card mx-2 my-2",
+        className: "note-card card mx-2 my-2",
         style: {
             width: '18rem'
         },
         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
             className: "card-body",
+            onClick: ()=>window.location.href = `./notes?id=${note._id}`,
+            style: {
+                cursor: 'pointer'
+            },
             children: [
-                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h5", {
-                    className: "card-title",
-                    children: note.title
+                isEditing ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                    type: "text",
+                    value: title,
+                    onChange: handleTitleChange,
+                    onBlur: handleTitleBlur,
+                    onKeyDown: handleTitleKeyDown,
+                    autoFocus: true,
+                    className: "form-control mb-2"
                 }, void 0, false, {
                     fileName: "frontend/src/components/NoteCard/NoteCard.js",
-                    lineNumber: 26,
-                    columnNumber: 9
-                }, this),
-                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h6", {
-                    className: "card-subtitle mb-2 text-muted",
-                    children: "Note Description"
+                    lineNumber: 65,
+                    columnNumber: 11
+                }, this) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h5", {
+                    className: "card-title py-2",
+                    onClick: (e)=>{
+                        e.stopPropagation();
+                        handleTitleClick();
+                    },
+                    style: {
+                        cursor: 'pointer'
+                    },
+                    children: title
                 }, void 0, false, {
                     fileName: "frontend/src/components/NoteCard/NoteCard.js",
-                    lineNumber: 27,
-                    columnNumber: 9
+                    lineNumber: 75,
+                    columnNumber: 11
                 }, this),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                    className: "card-text",
+                    className: "card-text text-muted",
                     children: note.desc
                 }, void 0, false, {
                     fileName: "frontend/src/components/NoteCard/NoteCard.js",
-                    lineNumber: 28,
-                    columnNumber: 9
-                }, this),
-                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
-                    href: `./updateNote.html?id=${note._id}`,
-                    className: "btn btn-warning btn-sm",
-                    children: "Edit"
-                }, void 0, false, {
-                    fileName: "frontend/src/components/NoteCard/NoteCard.js",
-                    lineNumber: 29,
+                    lineNumber: 83,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                    onClick: handleDelete,
-                    className: "btn btn-danger btn-sm ms-2",
+                    onClick: (e)=>{
+                        e.stopPropagation(); // prevent navigation
+                        handleDelete();
+                    },
+                    className: "btn btn-danger btn-sm",
                     children: "Delete"
                 }, void 0, false, {
                     fileName: "frontend/src/components/NoteCard/NoteCard.js",
-                    lineNumber: 30,
+                    lineNumber: 84,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "frontend/src/components/NoteCard/NoteCard.js",
-            lineNumber: 25,
+            lineNumber: 59,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "frontend/src/components/NoteCard/NoteCard.js",
-        lineNumber: 24,
+        lineNumber: 58,
         columnNumber: 5
     }, this);
 }
+_s(NoteCard, "xlyo9Fx5mdRpKzdTlY4xouJ6U8A=");
 _c = NoteCard;
 var _c;
 $RefreshReg$(_c, "NoteCard");
@@ -26235,7 +26267,7 @@ $RefreshReg$(_c, "NoteCard");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","../../../../backend/api":"3VpZi"}],"3VpZi":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","../../../../backend/api":"3VpZi","./NoteCard.css":"imZBl","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"3VpZi":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "postData", ()=>postData);
@@ -26251,7 +26283,7 @@ async function postData(endpoint, data) {
     return response.json();
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"1EsdC":[function(require,module,exports,__globalThis) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"imZBl":[function() {},{}],"1EsdC":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$3398 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$3398.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -26265,63 +26297,40 @@ parcelHelpers.export(exports, "default", ()=>NoteEditor);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
+var _reactRouterDom = require("react-router-dom");
+var _api = require("../../../../backend/api");
 var _s = $RefreshSig$();
 function NoteEditor({ refreshNotes }) {
     _s();
-    const [title, setTitle] = (0, _react.useState)('');
     const [desc, setDesc] = (0, _react.useState)('');
+    const location = (0, _reactRouterDom.useLocation)();
+    const queryParams = new URLSearchParams(location.search);
+    const noteId = queryParams.get('id');
+    (0, _react.useEffect)(()=>{
+        const fetchNote = async ()=>{
+            if (!noteId) return;
+            const data = await (0, _api.postData)('/api/getnote', {
+                id: noteId
+            });
+            if (data.success) setDesc(data.note.desc);
+            else alert('Note not found');
+        };
+        fetchNote();
+    }, [
+        noteId
+    ]);
     const handleSubmit = async ()=>{
         const email = JSON.parse(localStorage.getItem('user'))?.email;
-        const response = await fetch('/api/addnote', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                title,
-                desc,
-                email
-            })
+        let data;
+        data = await (0, _api.postData)('/api/updatenote', {
+            id: noteId,
+            desc
         });
-        const data = await response.json();
-        if (data.success) {
-            alert('Note created');
-            setTitle('');
-            setDesc('');
-            refreshNotes();
-        }
+        if (data.success) refreshNotes();
+        else alert('Failed to save note');
     };
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
         children: [
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                className: "mb-3",
-                children: [
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                        htmlFor: "title",
-                        className: "form-label",
-                        children: "Title"
-                    }, void 0, false, {
-                        fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                        lineNumber: 26,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                        type: "text",
-                        className: "form-control",
-                        id: "title",
-                        value: title,
-                        onChange: (e)=>setTitle(e.target.value)
-                    }, void 0, false, {
-                        fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                        lineNumber: 27,
-                        columnNumber: 9
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                lineNumber: 25,
-                columnNumber: 7
-            }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 className: "mb-3",
                 children: [
@@ -26331,7 +26340,7 @@ function NoteEditor({ refreshNotes }) {
                         children: "Description"
                     }, void 0, false, {
                         fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                        lineNumber: 30,
+                        lineNumber: 43,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("textarea", {
@@ -26341,13 +26350,13 @@ function NoteEditor({ refreshNotes }) {
                         onChange: (e)=>setDesc(e.target.value)
                     }, void 0, false, {
                         fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                        lineNumber: 31,
+                        lineNumber: 44,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                lineNumber: 29,
+                lineNumber: 42,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -26356,13 +26365,17 @@ function NoteEditor({ refreshNotes }) {
                 children: "Submit"
             }, void 0, false, {
                 fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                lineNumber: 33,
+                lineNumber: 46,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true);
 }
-_s(NoteEditor, "qrPNaMgksLGf+78Ss7cy3/cuuUY=");
+_s(NoteEditor, "THsTU0pl3AzmGhQMroCuPNnGnVY=", false, function() {
+    return [
+        (0, _reactRouterDom.useLocation)
+    ];
+});
 _c = NoteEditor;
 var _c;
 $RefreshReg$(_c, "NoteEditor");
@@ -26372,7 +26385,7 @@ $RefreshReg$(_c, "NoteEditor");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"4PBzb":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-router-dom":"61z4w","../../../../backend/api":"3VpZi","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"4PBzb":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$1db4 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$1db4.init();
 var prevRefreshReg = globalThis.$RefreshReg$;

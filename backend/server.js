@@ -28,6 +28,20 @@ mongoose.connect("mongodb+srv://admin:adminPassword@notteed.ikk6zmi.mongodb.net/
   .catch((error) => console.error("❌ MongoDB connection error:", error));
 
 // API endpoints
+app.post('/api/getnote', async (req, res) => {
+  const { id } = req.body;
+  try {
+    const note = await Note.findById(id);
+    if (note) {
+      res.status(200).json({ success: true, note });
+    } else {
+      res.status(404).json({ success: false, message: 'Note not found' });
+    }
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
 app.post("/api/getnotes", async (req, res) => {
   let notes = await Note.find({ email: req.body.email });
   res.status(200).json({ success: true, notes });

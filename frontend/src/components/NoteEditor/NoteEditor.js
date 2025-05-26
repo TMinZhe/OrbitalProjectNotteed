@@ -1,31 +1,44 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { postData } from '../../../../backend/api';
 
 export default function NoteEditor({ refreshNotes }) {
-  const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
 
-  const handleSubmit = async () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const noteId = queryParams.get('id');
+
+  useEffect(() => {
+    const fetchNote = async () => {
+      if (!noteId) return;
+
+      const data = await postData('/api/getnote', { id: noteId });
+      if (data.success) {
+        setDesc(data.note.desc);
+      } else {
+        alert('Note not found');
+      }
+    };
+
+    fetchNote();
+  }, [noteId]);
+
+   const handleSubmit = async () => {
     const email = JSON.parse(localStorage.getItem('user'))?.email;
-    const response = await fetch('/api/addnote', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, desc, email })
-    });
-    const data = await response.json();
+    let data;
+
+    data = await postData('/api/updatenote', { id: noteId, desc });
+
     if (data.success) {
-      alert('Note created');
-      setTitle('');
-      setDesc('');
       refreshNotes();
+    } else {
+      alert('Failed to save note');
     }
   };
 
   return (
     <>
-      <div className="mb-3">
-        <label htmlFor="title" className="form-label">Title</label>
-        <input type="text" className="form-control" id="title" value={title} onChange={e => setTitle(e.target.value)} />
-      </div>
       <div className="mb-3">
         <label htmlFor="desc" className="form-label">Description</label>
         <textarea className="form-control" id="desc" value={desc} onChange={e => setDesc(e.target.value)} />

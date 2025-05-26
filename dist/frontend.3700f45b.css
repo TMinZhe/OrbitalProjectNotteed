@@ -58,6 +58,10 @@
   top: 110%;
 }
 
+.card-body:hover {
+  background-color: #dcdcdc;
+}
+
 .notes-page {
   height: 100%;
 }

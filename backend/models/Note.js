@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const noteSchema = new mongoose.Schema({
     title: {type: String, required: true},
-    desc: {type: String, required: true},
+    desc: {type: String, required: false},
     email: {type: String, required: true},
 }, {timestamps: true});
 
