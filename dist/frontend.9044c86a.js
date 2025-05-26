@@ -23474,8 +23474,21 @@ var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _navBarCss = require("./NavBar.css");
+var _accountPrompt = require("../AccountPrompt/AccountPrompt");
+var _accountPromptDefault = parcelHelpers.interopDefault(_accountPrompt);
+var _s = $RefreshSig$();
 function NavBar() {
-    const user = JSON.parse(localStorage.getItem('user'));
+    _s();
+    const [user, setUser] = (0, _react.useState)(null);
+    (0, _react.useEffect)(()=>{
+        const syncUser = ()=>{
+            const storedUser = localStorage.getItem('user');
+            setUser(storedUser ? JSON.parse(storedUser) : null);
+        };
+        window.addEventListener('storage', syncUser);
+        return ()=>window.removeEventListener('storage', syncUser);
+    }, []);
+    const [showPrompt, setShowPrompt] = (0, _react.useState)(false);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         className: "navbar",
         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -23487,7 +23500,7 @@ function NavBar() {
                     children: "NOTTEED"
                 }, void 0, false, {
                     fileName: "frontend/src/components/NavBar/NavBar.js",
-                    lineNumber: 10,
+                    lineNumber: 23,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -23496,7 +23509,9 @@ function NavBar() {
                         display: 'flex',
                         gap: '16px'
                     },
-                    children: user && user.email ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
+                    children: user && user.email ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "navbar-user",
+                        onClick: ()=>setShowPrompt(!showPrompt),
                         children: [
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
                                 className: "navbar-notes",
@@ -23504,8 +23519,8 @@ function NavBar() {
                                 children: "Notes"
                             }, void 0, false, {
                                 fileName: "frontend/src/components/NavBar/NavBar.js",
-                                lineNumber: 14,
-                                columnNumber: 13
+                                lineNumber: 27,
+                                columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
                                 className: "navbar-username",
@@ -23515,11 +23530,27 @@ function NavBar() {
                                 ]
                             }, void 0, true, {
                                 fileName: "frontend/src/components/NavBar/NavBar.js",
-                                lineNumber: 15,
-                                columnNumber: 13
+                                lineNumber: 28,
+                                columnNumber: 15
+                            }, this),
+                            showPrompt && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                className: "account-prompt",
+                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _accountPromptDefault.default), {}, void 0, false, {
+                                    fileName: "frontend/src/components/NavBar/NavBar.js",
+                                    lineNumber: 29,
+                                    columnNumber: 63
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "frontend/src/components/NavBar/NavBar.js",
+                                lineNumber: 29,
+                                columnNumber: 31
                             }, this)
                         ]
-                    }, void 0, true) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
+                    }, void 0, true, {
+                        fileName: "frontend/src/components/NavBar/NavBar.js",
+                        lineNumber: 26,
+                        columnNumber: 13
+                    }, this) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
                         children: [
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
                                 href: "/account?action=login",
@@ -23528,12 +23559,12 @@ function NavBar() {
                                     children: "Login"
                                 }, void 0, false, {
                                     fileName: "frontend/src/components/NavBar/NavBar.js",
-                                    lineNumber: 19,
+                                    lineNumber: 33,
                                     columnNumber: 47
                                 }, this)
                             }, void 0, false, {
                                 fileName: "frontend/src/components/NavBar/NavBar.js",
-                                lineNumber: 19,
+                                lineNumber: 33,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
@@ -23543,33 +23574,34 @@ function NavBar() {
                                     children: "Signup"
                                 }, void 0, false, {
                                     fileName: "frontend/src/components/NavBar/NavBar.js",
-                                    lineNumber: 20,
+                                    lineNumber: 34,
                                     columnNumber: 48
                                 }, this)
                             }, void 0, false, {
                                 fileName: "frontend/src/components/NavBar/NavBar.js",
-                                lineNumber: 20,
+                                lineNumber: 34,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true)
                 }, void 0, false, {
                     fileName: "frontend/src/components/NavBar/NavBar.js",
-                    lineNumber: 11,
+                    lineNumber: 24,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "frontend/src/components/NavBar/NavBar.js",
-            lineNumber: 9,
+            lineNumber: 22,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "frontend/src/components/NavBar/NavBar.js",
-        lineNumber: 8,
+        lineNumber: 21,
         columnNumber: 5
     }, this);
 }
+_s(NavBar, "74A7NzBhsQWqLOfqGO3a6s8wg8I=");
 _c = NavBar;
 var _c;
 $RefreshReg$(_c, "NavBar");
@@ -23579,7 +23611,53 @@ $RefreshReg$(_c, "NavBar");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","./NavBar.css":"kBf9t","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"kBf9t":[function() {},{}],"7h6Pi":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","./NavBar.css":"kBf9t","../AccountPrompt/AccountPrompt":"MjWzT","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"kBf9t":[function() {},{}],"MjWzT":[function(require,module,exports,__globalThis) {
+var $parcel$ReactRefreshHelpers$4f5e = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+$parcel$ReactRefreshHelpers$4f5e.init();
+var prevRefreshReg = globalThis.$RefreshReg$;
+var prevRefreshSig = globalThis.$RefreshSig$;
+$parcel$ReactRefreshHelpers$4f5e.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "default", ()=>AccountPrompt);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _accountPromptCss = require("./AccountPrompt.css");
+const handleLogout = ()=>{
+    localStorage.removeItem('user');
+    window.location.href = '/'; // or '/'
+};
+function AccountPrompt() {
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        id: "account-prompt",
+        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+            id: "account-prompt-logout",
+            onClick: handleLogout,
+            children: "Log Out"
+        }, void 0, false, {
+            fileName: "frontend/src/components/AccountPrompt/AccountPrompt.js",
+            lineNumber: 12,
+            columnNumber: 13
+        }, this)
+    }, void 0, false, {
+        fileName: "frontend/src/components/AccountPrompt/AccountPrompt.js",
+        lineNumber: 11,
+        columnNumber: 9
+    }, this);
+}
+_c = AccountPrompt;
+var _c;
+$RefreshReg$(_c, "AccountPrompt");
+
+  $parcel$ReactRefreshHelpers$4f5e.postlude(module);
+} finally {
+  globalThis.$RefreshReg$ = prevRefreshReg;
+  globalThis.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","./AccountPrompt.css":"fQYvs","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"fQYvs":[function() {},{}],"7h6Pi":[function(require,module,exports,__globalThis) {
 "use strict";
 var Refresh = require("7422ead32dcc1e6b");
 function debounce(func, delay) {
@@ -26471,6 +26549,7 @@ function LoginPrompt() {
         });
         if (res.success && res.user) {
             localStorage.setItem('user', JSON.stringify(res.user));
+            window.dispatchEvent(new Event("storage"));
             setLoginMsg('');
             navigate('/');
         } else setLoginMsg(res.message || 'Login failed.');
@@ -26490,7 +26569,7 @@ function LoginPrompt() {
                     children: "Login"
                 }, void 0, false, {
                     fileName: "frontend/src/components/LoginPrompt/LoginPrompt.js",
-                    lineNumber: 29,
+                    lineNumber: 30,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("form", {
@@ -26505,7 +26584,7 @@ function LoginPrompt() {
                                     children: "Email address"
                                 }, void 0, false, {
                                     fileName: "frontend/src/components/LoginPrompt/LoginPrompt.js",
-                                    lineNumber: 32,
+                                    lineNumber: 33,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -26517,13 +26596,13 @@ function LoginPrompt() {
                                     required: true
                                 }, void 0, false, {
                                     fileName: "frontend/src/components/LoginPrompt/LoginPrompt.js",
-                                    lineNumber: 33,
+                                    lineNumber: 34,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "frontend/src/components/LoginPrompt/LoginPrompt.js",
-                            lineNumber: 31,
+                            lineNumber: 32,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -26535,7 +26614,7 @@ function LoginPrompt() {
                                     children: "Password"
                                 }, void 0, false, {
                                     fileName: "frontend/src/components/LoginPrompt/LoginPrompt.js",
-                                    lineNumber: 38,
+                                    lineNumber: 39,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -26547,13 +26626,13 @@ function LoginPrompt() {
                                     required: true
                                 }, void 0, false, {
                                     fileName: "frontend/src/components/LoginPrompt/LoginPrompt.js",
-                                    lineNumber: 39,
+                                    lineNumber: 40,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "frontend/src/components/LoginPrompt/LoginPrompt.js",
-                            lineNumber: 37,
+                            lineNumber: 38,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -26561,7 +26640,7 @@ function LoginPrompt() {
                             children: loginMsg
                         }, void 0, false, {
                             fileName: "frontend/src/components/LoginPrompt/LoginPrompt.js",
-                            lineNumber: 42,
+                            lineNumber: 43,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -26570,7 +26649,7 @@ function LoginPrompt() {
                             children: "Login"
                         }, void 0, false, {
                             fileName: "frontend/src/components/LoginPrompt/LoginPrompt.js",
-                            lineNumber: 43,
+                            lineNumber: 44,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
@@ -26579,24 +26658,24 @@ function LoginPrompt() {
                             children: "Create Account"
                         }, void 0, false, {
                             fileName: "frontend/src/components/LoginPrompt/LoginPrompt.js",
-                            lineNumber: 44,
+                            lineNumber: 45,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "frontend/src/components/LoginPrompt/LoginPrompt.js",
-                    lineNumber: 30,
+                    lineNumber: 31,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "frontend/src/components/LoginPrompt/LoginPrompt.js",
-            lineNumber: 28,
+            lineNumber: 29,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "frontend/src/components/LoginPrompt/LoginPrompt.js",
-        lineNumber: 27,
+        lineNumber: 28,
         columnNumber: 5
     }, this);
 }
@@ -26630,16 +26709,23 @@ var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _reactRouterDom = require("react-router-dom");
 var _api = require("../../../../backend/api");
+var _signupPromptCss = require("./SignupPrompt.css");
 var _s = $RefreshSig$();
 function SignupPrompt() {
     _s();
     const [email, setEmail] = (0, _react.useState)('');
     const [password, setPassword] = (0, _react.useState)('');
+    const [signupMsg, setSignupMsg] = (0, _react.useState)('\u00A0');
     const navigate = (0, _reactRouterDom.useNavigate)();
     const handleSignup = async (e)=>{
         e.preventDefault();
         if (!email || !password) {
-            alert('Please fill all fields');
+            setSignupMsg('Please fill all fields');
+            return;
+        }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            setSignupMsg('Please enter a valid email address');
             return;
         }
         const res = await (0, _api.postData)('/api/signup', {
@@ -26647,9 +26733,9 @@ function SignupPrompt() {
             password
         });
         if (res.success) {
-            alert('Signup successful! Please login.');
+            setSignupMsg('Signup successful!');
             navigate('/login');
-        } else alert('Signup failed: ' + (res.message || 'Unknown error'));
+        } else setSignupMsg('Signup failed: ' + (res.message || 'Unknown error'));
     };
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         className: "flex stretch",
@@ -26666,11 +26752,12 @@ function SignupPrompt() {
                     children: "Create Account"
                 }, void 0, false, {
                     fileName: "frontend/src/components/SignupPrompt/SignupPrompt.js",
-                    lineNumber: 28,
+                    lineNumber: 37,
                     columnNumber: 13
                 }, this),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("form", {
                     onSubmit: handleSignup,
+                    noValidate: true,
                     children: [
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                             className: "mb-3",
@@ -26681,7 +26768,7 @@ function SignupPrompt() {
                                     children: "Email address"
                                 }, void 0, false, {
                                     fileName: "frontend/src/components/SignupPrompt/SignupPrompt.js",
-                                    lineNumber: 31,
+                                    lineNumber: 40,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -26690,17 +26777,16 @@ function SignupPrompt() {
                                     className: "form-control",
                                     value: email,
                                     onChange: (e)=>setEmail(e.target.value),
-                                    required: true,
                                     autoComplete: "username"
                                 }, void 0, false, {
                                     fileName: "frontend/src/components/SignupPrompt/SignupPrompt.js",
-                                    lineNumber: 32,
+                                    lineNumber: 41,
                                     columnNumber: 17
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "frontend/src/components/SignupPrompt/SignupPrompt.js",
-                            lineNumber: 30,
+                            lineNumber: 39,
                             columnNumber: 17
                         }, this),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -26712,7 +26798,7 @@ function SignupPrompt() {
                                     children: "Password"
                                 }, void 0, false, {
                                     fileName: "frontend/src/components/SignupPrompt/SignupPrompt.js",
-                                    lineNumber: 44,
+                                    lineNumber: 52,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -26721,24 +26807,24 @@ function SignupPrompt() {
                                     className: "form-control",
                                     value: password,
                                     onChange: (e)=>setPassword(e.target.value),
-                                    required: true,
                                     autoComplete: "new-password"
                                 }, void 0, false, {
                                     fileName: "frontend/src/components/SignupPrompt/SignupPrompt.js",
-                                    lineNumber: 45,
+                                    lineNumber: 53,
                                     columnNumber: 17
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "frontend/src/components/SignupPrompt/SignupPrompt.js",
-                            lineNumber: 43,
+                            lineNumber: 51,
                             columnNumber: 17
                         }, this),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                            id: "signupMsg"
+                            id: "signupMsg",
+                            children: signupMsg
                         }, void 0, false, {
                             fileName: "frontend/src/components/SignupPrompt/SignupPrompt.js",
-                            lineNumber: 55,
+                            lineNumber: 62,
                             columnNumber: 17
                         }, this),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -26747,7 +26833,7 @@ function SignupPrompt() {
                             children: "Sign up"
                         }, void 0, false, {
                             fileName: "frontend/src/components/SignupPrompt/SignupPrompt.js",
-                            lineNumber: 56,
+                            lineNumber: 63,
                             columnNumber: 17
                         }, this),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
@@ -26756,28 +26842,28 @@ function SignupPrompt() {
                             children: "Log into existing account"
                         }, void 0, false, {
                             fileName: "frontend/src/components/SignupPrompt/SignupPrompt.js",
-                            lineNumber: 57,
+                            lineNumber: 64,
                             columnNumber: 17
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "frontend/src/components/SignupPrompt/SignupPrompt.js",
-                    lineNumber: 29,
+                    lineNumber: 38,
                     columnNumber: 13
                 }, this)
             ]
         }, void 0, true, {
             fileName: "frontend/src/components/SignupPrompt/SignupPrompt.js",
-            lineNumber: 27,
+            lineNumber: 36,
             columnNumber: 9
         }, this)
     }, void 0, false, {
         fileName: "frontend/src/components/SignupPrompt/SignupPrompt.js",
-        lineNumber: 26,
+        lineNumber: 35,
         columnNumber: 5
     }, this);
 }
-_s(SignupPrompt, "OqFWRqNCJ3BNGyYdED5qKBGtbCw=", false, function() {
+_s(SignupPrompt, "78vpCRh2ISNIUGt6qbDl1VhmU3o=", false, function() {
     return [
         (0, _reactRouterDom.useNavigate)
     ];
@@ -26791,7 +26877,7 @@ $RefreshReg$(_c, "SignupPrompt");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-router-dom":"61z4w","../../../../backend/api":"3VpZi","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"dk54F":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-router-dom":"61z4w","../../../../backend/api":"3VpZi","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","./SignupPrompt.css":"lTPv7"}],"lTPv7":[function() {},{}],"dk54F":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$9115 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$9115.init();
 var prevRefreshReg = globalThis.$RefreshReg$;

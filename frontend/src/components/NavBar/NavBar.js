@@ -1,8 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './NavBar.css';
+import AccountPrompt from '../AccountPrompt/AccountPrompt';
 
 export default function NavBar() {
-  const user = JSON.parse(localStorage.getItem('user'));
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+  const syncUser = () => {
+    const storedUser = localStorage.getItem('user');
+    setUser(storedUser ? JSON.parse(storedUser) : null);
+  };
+
+  window.addEventListener('storage', syncUser);
+  return () => window.removeEventListener('storage', syncUser);
+  }, []);
+  
+  const [showPrompt, setShowPrompt] = useState(false);
 
   return (
     <div className="navbar">
@@ -10,10 +23,11 @@ export default function NavBar() {
         <a className="navbar-name" href="/">NOTTEED</a>
         <div className="navbar-account" style={{ display: 'flex', gap: '16px' }}>
           {user && user.email ? (
-            <>
-            <a className="navbar-notes" href="/notes">Notes</a>
-            <span className="navbar-username">Welcome, {user.username || user.email}</span>
-            </>
+            <div className='navbar-user' onClick={() => setShowPrompt(!showPrompt)}>
+              <a className="navbar-notes" href="/notes">Notes</a>
+              <span className="navbar-username">Welcome, {user.username || user.email}</span>
+              {showPrompt && (<div className='account-prompt'><AccountPrompt /></div>)}
+            </ div>
           ) : (
             <>
               <a href="/account?action=login"><button className='navbar-login'>Login</button></a>

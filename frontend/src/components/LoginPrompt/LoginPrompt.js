@@ -16,6 +16,7 @@ export default function LoginPrompt() {
 
     if (res.success && res.user) {
       localStorage.setItem('user', JSON.stringify(res.user));
+      window.dispatchEvent(new Event("storage"));
       setLoginMsg('');
       navigate('/');
     } else {

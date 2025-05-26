@@ -46,7 +46,24 @@
   color: lightgrey;
 }
 
+.navbar-user-container {
+  position: relative;
+  display: inline-block;
+}
+
 .navbar-username
 {
   color: white;
+}
+
+.navbar-username:hover
+{
+  color: lightgrey;
+}
+
+
+.account-prompt
+{
+  position: absolute;
+  top: 110%;
 }

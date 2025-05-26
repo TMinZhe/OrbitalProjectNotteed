@@ -47,8 +47,13 @@ app.post("/api/login", async (req, res) => {
 });
 
 app.post("/api/signup", async (req, res) => {
-  let user = await User.create(req.body);
-  res.status(200).json({ success: true, user: user });
+  try {
+    let user = await User.create(req.body);
+    res.status(200).json({ success: true, user: user });
+  } catch (error) {
+    console.error('Signup error:', error);
+    res.status(400).json({ success: false, message: error.message || 'Signup failed' });
+  }
 });
 
 app.post("/api/addnote", async (req, res) => {

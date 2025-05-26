@@ -40,11 +40,25 @@
   color: #d3d3d3;
 }
 
+.navbar-user-container {
+  display: inline-block;
+  position: relative;
+}
+
 .navbar-username {
   color: #fff;
 }
 
-#loginMsg {
+.navbar-username:hover {
+  color: #d3d3d3;
+}
+
+.account-prompt {
+  position: absolute;
+  top: 110%;
+}
+
+#loginMsg, #signupMsg {
   color: red;
 }
 
