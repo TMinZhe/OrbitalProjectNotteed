@@ -160,7 +160,7 @@
       });
     }
   }
-})({"8u7cP":[function(require,module,exports,__globalThis) {
+})({"j908s":[function(require,module,exports,__globalThis) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -26949,6 +26949,6 @@ $RefreshReg$(_c, "ProtectedRoute");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-router-dom":"61z4w","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"b44D5":[function() {},{}]},["8u7cP","dSG2g"], "dSG2g", "parcelRequire5cf9", {}, null, null, "http://localhost:3000")
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-router-dom":"61z4w","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"b44D5":[function() {},{}]},["j908s","dSG2g"], "dSG2g", "parcelRequire5cf9", {}, null, null, "http://localhost:3000")
 
 //# sourceMappingURL=frontend.9044c86a.js.map
