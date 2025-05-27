@@ -47,6 +47,10 @@
                 <label for="desc" class="form-label">Description</label>
                 <textarea type="text" class="form-control" id="desc"></textarea>
             </div>
+            <div class="mb-3">
+                <label for="image" class="form-label">Image</label>
+                <input type="file" class="form-control" id="image">
+            </div>
             <button id="submit" type="submit" class="btn btn-primary">Submit</button>
         </div>
 
@@ -77,8 +81,6 @@
 
         //fetch all the notes
         const fetchNotes = () => {
-
-
             const user = JSON.parse(localStorage.getItem('user'))
             //TODO: enable redirection and fetching
             // if(!user || !user.token){
@@ -95,11 +97,13 @@
 
 
                         let note = `
+                         
                     <div class="card mx-2" style="width: 18rem;">
                         <div class="card-body">
                         <h5 class="card-title">${element.title}</h5>
                         <h6 class="card-subtitle mb-2 text-body-secondary">Note Description</h6>
                         <p class="card-text">${element.desc}</p>
+                        ${element.imagePath ? `<img src="${element.imagePath}" class="card-img-top" alt="Note Image">` : ""}
                         <a href="./updateNote.html?id=${element._id}" class="btn btn-warning btn-sm">Edit</a>
                         <button class="btn btn-danger btn-sm delete-note" data-id="${element._id}">Delete</button>
                         </div>
@@ -131,21 +135,55 @@
         }
         fetchNotes()
         //add a click listener for submit
+        // let submit = document.getElementById("submit")
+        // submit.addEventListener("click", async () => {
+        //     let title = document.getElementById("title").value
+        //     let desc = document.getElementById("desc").value
+        //     let email = JSON.parse(localStorage.getItem("user"))?.email
+
+        //     console.log("submitting this data", title, desc, email)
+        //     let resp = await postData("/addnote", { title, desc, email })
+
+        //     if (resp.success) {
+        //         alert("Note created")
+        //         document.getElementById("title").value = ""
+        //         document.getElementById("desc").value = ""
+        //         fetchNotes()
+        //     }
+        // })
+
         let submit = document.getElementById("submit")
         submit.addEventListener("click", async () => {
-            let title = document.getElementById("title").value
-            let desc = document.getElementById("desc").value
-            let email = JSON.parse(localStorage.getItem("user"))?.email
-            console.log("submitting this data", title, desc, email)
-            let resp = await postData("/addnote", { title, desc, email })
-            if (resp.success) {
-                alert("Note created")
-                document.getElementById("title").value = ""
-                document.getElementById("desc").value = ""
-                fetchNotes()
-            }
-        })
+            let title = document.getElementById("title").value;
+            let desc = document.getElementById("desc").value;
+            let image = document.getElementById("image").files[0];
+            let email = JSON.parse(localStorage.getItem("user"))?.email;
 
+            const formData = new FormData();
+            formData.append("title", title);
+            formData.append("desc", desc);
+            formData.append("email", email);
+            if (image) {
+                formData.append("image", image);
+            }
+
+            const response = await fetch("/addnote", {
+                method: "POST",
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                alert("Note added!");
+                document.getElementById("title").value = "";
+                document.getElementById("desc").value = "";
+                document.getElementById("image").value = "";
+                fetchNotes();
+            } else {
+                alert("Failed to add note");
+            }
+        });
 
 
     </script>
