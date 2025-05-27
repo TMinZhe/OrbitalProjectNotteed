@@ -23629,7 +23629,7 @@ var _reactDefault = parcelHelpers.interopDefault(_react);
 var _accountPromptCss = require("./AccountPrompt.css");
 const handleLogout = ()=>{
     localStorage.removeItem('user');
-    window.location.href = '/'; // or '/'
+    window.location.href = '/';
 };
 function AccountPrompt() {
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -26405,7 +26405,7 @@ function CustomisationBar() {
         style: {
             backgroundColor: 'lightgrey'
         },
-        className: "customisation-bar",
+        className: "customisation-bar px-3",
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("select", {
                 id: "fontPicker",

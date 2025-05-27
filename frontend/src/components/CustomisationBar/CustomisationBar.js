@@ -3,7 +3,7 @@ import './CustomisationBar.css';
 
 export default function CustomisationBar() {
   return (
-    <div style={{ backgroundColor: 'lightgrey' }} className="customisation-bar">
+    <div style={{ backgroundColor: 'lightgrey' }} className="customisation-bar px-3">
       <select id="fontPicker">
         <option value="Arial">Arial</option>
         <option value="Georgia">Georgia</option>

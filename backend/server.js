@@ -19,6 +19,29 @@ app.use(cors({
   credentials: true
 }));
 
+// Image stuff
+const multer = require('multer')
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'Images')
+  },
+  filename: (req, file, cb) => {
+    console.log(file)
+    cb(null, Date.now() + path.extname(file.originalname))
+  }
+})
+const upload = multer({storage: storage})
+
+const Groq = require("groq-sdk");
+
+const groq = new Groq({ apiKey: "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" });
+
+app.use(express.static('pages'));
+app.use('/Images', express.static(path.join(__dirname, 'Images')));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -95,6 +118,41 @@ app.post("/api/deletenote", async (req, res) => {
   const { id } = req.body;
   await Note.findByIdAndDelete(id);
   res.status(200).json({ success: true, message: "Note deleted" });
+});
+
+app.post("/summarise", async (req, res) => {
+  const { text } = req.body;
+
+  try {
+    const chatCompletion = await groq.chat.completions.create({
+      messages: [
+        {
+          role: "user",
+          content: `Summarise the following text:\n\n${text}`,
+        },
+      ],
+      model: "meta-llama/llama-4-scout-17b-16e-instruct",
+      temperature: 1,
+      max_tokens: 1024,
+      top_p: 1,
+      stream: true,
+    });
+
+    let summary = "";
+
+    for await (const chunk of chatCompletion) {
+      const delta = chunk.choices[0]?.delta?.content;
+      if (delta) {
+        summary += delta;
+      }
+    }
+
+    res.status(200).json({ success: true, summary });
+
+  } catch (error) {
+    console.error("❌ Error summarizing:", error);
+    res.status(500).json({ success: false, message: "Failed to generate summary." });
+  }
 });
 
 // Serve React frontend

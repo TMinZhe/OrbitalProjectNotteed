@@ -3,7 +3,7 @@ import './AccountPrompt.css'
 
 const handleLogout = () => {
   localStorage.removeItem('user');
-  window.location.href = '/'; // or '/'
+  window.location.href = '/';
 };
 
 export default function AccountPrompt() {
