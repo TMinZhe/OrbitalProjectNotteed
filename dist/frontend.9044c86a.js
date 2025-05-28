@@ -26303,6 +26303,7 @@ var _s = $RefreshSig$();
 function NoteEditor({ refreshNotes }) {
     _s();
     const [desc, setDesc] = (0, _react.useState)('');
+    const [imageFile, setImageFile] = (0, _react.useState)(null);
     const location = (0, _reactRouterDom.useLocation)();
     const queryParams = new URLSearchParams(location.search);
     const noteId = queryParams.get('id');
@@ -26312,8 +26313,10 @@ function NoteEditor({ refreshNotes }) {
             const data = await (0, _api.postData)('/api/getnote', {
                 id: noteId
             });
-            if (data.success) setDesc(data.note.desc);
-            else alert('Note not found');
+            if (data.success) {
+                setDesc(data.note.desc);
+                setImageFile(data.note.imagePath);
+            } else alert('Note not found');
         };
         fetchNote();
     }, [
@@ -26321,10 +26324,22 @@ function NoteEditor({ refreshNotes }) {
     ]);
     const handleSubmit = async ()=>{
         const email = JSON.parse(localStorage.getItem('user'))?.email;
+        const imageInput = document.getElementById('image');
+        const image = imageInput?.files?.[0];
         let data;
-        data = await (0, _api.postData)('/api/updatenote', {
+        if (image) {
+            const formData = new FormData();
+            formData.append('id', noteId);
+            formData.append('desc', desc);
+            formData.append('email', email);
+            formData.append('image', image);
+            data = await (0, _api.postData)('/api/updatenote', formData);
+            document.getElementById('image').value = null;
+            setImageFile(null);
+        } else data = await (0, _api.postData)('/api/updatenote', {
             id: noteId,
-            desc
+            desc,
+            email
         });
         if (data.success) refreshNotes();
         else alert('Failed to save note');
@@ -26340,7 +26355,7 @@ function NoteEditor({ refreshNotes }) {
                         children: "Description"
                     }, void 0, false, {
                         fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                        lineNumber: 43,
+                        lineNumber: 65,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("textarea", {
@@ -26350,13 +26365,51 @@ function NoteEditor({ refreshNotes }) {
                         onChange: (e)=>setDesc(e.target.value)
                     }, void 0, false, {
                         fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                        lineNumber: 44,
+                        lineNumber: 66,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                lineNumber: 42,
+                lineNumber: 64,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "mb-3",
+                children: [
+                    imageFile && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "mb-3",
+                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                            src: typeof imageFile === 'string' ? imageFile : URL.createObjectURL(imageFile),
+                            alt: "Note",
+                            style: {
+                                maxWidth: '20%',
+                                height: 'auto'
+                            }
+                        }, void 0, false, {
+                            fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
+                            lineNumber: 71,
+                            columnNumber: 13
+                        }, this)
+                    }, void 0, false, {
+                        fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
+                        lineNumber: 70,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                        type: "file",
+                        className: "form-control",
+                        id: "image",
+                        onChange: (e)=>setImageFile(e.target.files[0])
+                    }, void 0, false, {
+                        fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
+                        lineNumber: 82,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
+                lineNumber: 68,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -26365,13 +26418,13 @@ function NoteEditor({ refreshNotes }) {
                 children: "Submit"
             }, void 0, false, {
                 fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                lineNumber: 46,
+                lineNumber: 89,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true);
 }
-_s(NoteEditor, "THsTU0pl3AzmGhQMroCuPNnGnVY=", false, function() {
+_s(NoteEditor, "UgBQkpDpqguP26M43XFeBd8/Yyo=", false, function() {
     return [
         (0, _reactRouterDom.useLocation)
     ];
