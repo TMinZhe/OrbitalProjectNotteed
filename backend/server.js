@@ -100,8 +100,18 @@ app.post("/api/addnote", async (req, res) => {
       return res.status(400).json({ success: false, message: "Title and email are required" });
     }
 
-    const note = await Note.create({ title, desc, email });
-    res.status(200).json({ success: true, note });
+    const noteData = {
+    title,
+    desc,
+    email
+  };
+
+  if (req.file) {
+    noteData.imagePath = '/Images/' + req.file.filename; // relative path
+  }
+
+  let note = await Note.create(noteData);
+  res.status(200).json({ success: true, note });
   } catch (err) {
     console.error("Failed to add note:", err);
     res.status(500).json({ success: false, message: "Internal server error" });
