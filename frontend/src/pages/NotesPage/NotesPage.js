@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import NoteCard from '../../components/NoteCard/NoteCard';
 import NoteEditor from '../../components/NoteEditor/NoteEditor';
 import CustomisationBar from '../../components/CustomisationBar/CustomisationBar';
@@ -7,6 +8,10 @@ import './NotesPage.css'
 
 export default function NotesPage() {
   const [notes, setNotes] = useState([]);
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const noteId = queryParams.get('id');
 
   const fetchNotes = async () => {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -61,7 +66,7 @@ export default function NotesPage() {
           ))}
         </div>
         <div className="note-editor" style={{ backgroundColor: '#cce4ed' }}>
-          <NoteEditor refreshNotes={fetchNotes} />
+          { noteId && (<NoteEditor refreshNotes={fetchNotes} />) }
         </div>
       </div>
     </div>

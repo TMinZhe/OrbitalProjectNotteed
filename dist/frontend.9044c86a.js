@@ -25988,6 +25988,7 @@ parcelHelpers.export(exports, "default", ()=>NotesPage);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
+var _reactRouterDom = require("react-router-dom");
 var _noteCard = require("../../components/NoteCard/NoteCard");
 var _noteCardDefault = parcelHelpers.interopDefault(_noteCard);
 var _noteEditor = require("../../components/NoteEditor/NoteEditor");
@@ -26000,6 +26001,9 @@ var _s = $RefreshSig$();
 function NotesPage() {
     _s();
     const [notes, setNotes] = (0, _react.useState)([]);
+    const location = (0, _reactRouterDom.useLocation)();
+    const queryParams = new URLSearchParams(location.search);
+    const noteId = queryParams.get('id');
     const fetchNotes = async ()=>{
         const user = JSON.parse(localStorage.getItem('user'));
         if (!user?.email) return alert('Please login first');
@@ -26037,7 +26041,7 @@ function NotesPage() {
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _customisationBarDefault.default), {}, void 0, false, {
                 fileName: "frontend/src/pages/NotesPage/NotesPage.js",
-                lineNumber: 52,
+                lineNumber: 57,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -26059,7 +26063,7 @@ function NotesPage() {
                                         children: "Your Notes"
                                     }, void 0, false, {
                                         fileName: "frontend/src/pages/NotesPage/NotesPage.js",
-                                        lineNumber: 56,
+                                        lineNumber: 61,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -26068,13 +26072,13 @@ function NotesPage() {
                                         children: "+"
                                     }, void 0, false, {
                                         fileName: "frontend/src/pages/NotesPage/NotesPage.js",
-                                        lineNumber: 57,
+                                        lineNumber: 62,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "frontend/src/pages/NotesPage/NotesPage.js",
-                                lineNumber: 55,
+                                lineNumber: 60,
                                 columnNumber: 11
                             }, this),
                             notes.map((note)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _noteCardDefault.default), {
@@ -26082,13 +26086,13 @@ function NotesPage() {
                                     refreshNotes: fetchNotes
                                 }, note._id, false, {
                                     fileName: "frontend/src/pages/NotesPage/NotesPage.js",
-                                    lineNumber: 60,
+                                    lineNumber: 65,
                                     columnNumber: 13
                                 }, this))
                         ]
                     }, void 0, true, {
                         fileName: "frontend/src/pages/NotesPage/NotesPage.js",
-                        lineNumber: 54,
+                        lineNumber: 59,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -26096,32 +26100,36 @@ function NotesPage() {
                         style: {
                             backgroundColor: '#cce4ed'
                         },
-                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _noteEditorDefault.default), {
+                        children: noteId && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _noteEditorDefault.default), {
                             refreshNotes: fetchNotes
                         }, void 0, false, {
                             fileName: "frontend/src/pages/NotesPage/NotesPage.js",
-                            lineNumber: 64,
-                            columnNumber: 11
+                            lineNumber: 69,
+                            columnNumber: 24
                         }, this)
                     }, void 0, false, {
                         fileName: "frontend/src/pages/NotesPage/NotesPage.js",
-                        lineNumber: 63,
+                        lineNumber: 68,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "frontend/src/pages/NotesPage/NotesPage.js",
-                lineNumber: 53,
+                lineNumber: 58,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "frontend/src/pages/NotesPage/NotesPage.js",
-        lineNumber: 51,
+        lineNumber: 56,
         columnNumber: 5
     }, this);
 }
-_s(NotesPage, "vOaC7rmji7ux6HtcIeocV+tl1oY=");
+_s(NotesPage, "7soa6fVFx0ief9WpitUmcwAoCmI=", false, function() {
+    return [
+        (0, _reactRouterDom.useLocation)
+    ];
+});
 _c = NotesPage;
 var _c;
 $RefreshReg$(_c, "NotesPage");
@@ -26131,7 +26139,7 @@ $RefreshReg$(_c, "NotesPage");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","../../components/NoteCard/NoteCard":"aDR0f","../../components/NoteEditor/NoteEditor":"1EsdC","../../components/CustomisationBar/CustomisationBar":"4PBzb","../../../../backend/api":"3VpZi","./NotesPage.css":"jrOO4","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"aDR0f":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","../../components/NoteCard/NoteCard":"aDR0f","../../components/NoteEditor/NoteEditor":"1EsdC","../../components/CustomisationBar/CustomisationBar":"4PBzb","../../../../backend/api":"3VpZi","./NotesPage.css":"jrOO4","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","react-router-dom":"61z4w"}],"aDR0f":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$b886 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$b886.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -26273,13 +26281,15 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "postData", ()=>postData);
 const API_BASE_URL = 'http://localhost:5073';
 async function postData(endpoint, data) {
+    const isFormData = data instanceof FormData;
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
         method: 'POST',
-        headers: {
+        headers: isFormData ? {} : {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data)
+        body: isFormData ? data : JSON.stringify(data)
     });
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     return response.json();
 }
 
@@ -26303,13 +26313,14 @@ var _s = $RefreshSig$();
 function NoteEditor({ refreshNotes }) {
     _s();
     const [desc, setDesc] = (0, _react.useState)('');
-    const [imageFile, setImageFile] = (0, _react.useState)(null);
+    const [imageFile, setImageFile] = (0, _react.useState)('');
+    const [newImageFile, setNewImageFile] = (0, _react.useState)(null);
     const location = (0, _reactRouterDom.useLocation)();
     const queryParams = new URLSearchParams(location.search);
     const noteId = queryParams.get('id');
-    (0, _react.useEffect)(()=>{
-        const fetchNote = async ()=>{
-            if (!noteId) return;
+    const fetchNote = async ()=>{
+        if (!noteId) return;
+        try {
             const data = await (0, _api.postData)('/api/getnote', {
                 id: noteId
             });
@@ -26317,32 +26328,52 @@ function NoteEditor({ refreshNotes }) {
                 setDesc(data.note.desc);
                 setImageFile(data.note.imagePath);
             } else alert('Note not found');
-        };
+        } catch (err) {
+            alert('Error fetching note: ' + err.message);
+        }
+    };
+    (0, _react.useEffect)(()=>{
         fetchNote();
     }, [
         noteId
     ]);
     const handleSubmit = async ()=>{
         const email = JSON.parse(localStorage.getItem('user'))?.email;
-        const imageInput = document.getElementById('image');
-        const image = imageInput?.files?.[0];
         let data;
-        if (image) {
-            const formData = new FormData();
-            formData.append('id', noteId);
-            formData.append('desc', desc);
-            formData.append('email', email);
-            formData.append('image', image);
-            data = await (0, _api.postData)('/api/updatenote', formData);
-            document.getElementById('image').value = null;
-            setImageFile(null);
-        } else data = await (0, _api.postData)('/api/updatenote', {
-            id: noteId,
-            desc,
-            email
-        });
-        if (data.success) refreshNotes();
-        else alert('Failed to save note');
+        const formData = new FormData();
+        formData.append('id', noteId);
+        formData.append('desc', desc);
+        formData.append('email', email);
+        if (newImageFile) {
+            if (typeof imageFile === 'string' && imageFile.trim() !== '') await (0, _api.postData)('/api/deleteimage', {
+                path: imageFile
+            });
+            formData.append('image', newImageFile);
+        }
+        data = await (0, _api.postData)('/api/updatenote', formData);
+        if (data.success) {
+            fetchNote();
+            refreshNotes();
+        } else alert('Failed to save note');
+    };
+    const [summary, setSummary] = (0, _react.useState)('');
+    const [loading, setLoading] = (0, _react.useState)(false);
+    const handleGenerateSummary = async ()=>{
+        if (!desc) return alert('Please enter some text to summarise.');
+        setLoading(true);
+        setSummary('');
+        try {
+            const data = await (0, _api.postData)('/api/summarise', {
+                text: desc
+            });
+            if (data.success) setSummary(data.summary);
+            else alert('Failed to generate summary.');
+        } catch (error) {
+            console.error('Error generating summary:', error);
+            alert('Error while summarizing.');
+        } finally{
+            setLoading(false);
+        }
     };
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
         children: [
@@ -26355,7 +26386,7 @@ function NoteEditor({ refreshNotes }) {
                         children: "Description"
                     }, void 0, false, {
                         fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                        lineNumber: 65,
+                        lineNumber: 87,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("textarea", {
@@ -26365,51 +26396,54 @@ function NoteEditor({ refreshNotes }) {
                         onChange: (e)=>setDesc(e.target.value)
                     }, void 0, false, {
                         fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                        lineNumber: 66,
+                        lineNumber: 88,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                lineNumber: 64,
+                lineNumber: 86,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 className: "mb-3",
                 children: [
-                    imageFile && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                    (newImageFile || typeof imageFile === 'string' && imageFile.trim() !== '') && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                         className: "mb-3",
                         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
-                            src: typeof imageFile === 'string' ? imageFile : URL.createObjectURL(imageFile),
-                            alt: "Note",
+                            src: newImageFile ? URL.createObjectURL(newImageFile) : imageFile,
                             style: {
+                                minWidth: '20%',
                                 maxWidth: '20%',
                                 height: 'auto'
                             }
                         }, void 0, false, {
                             fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                            lineNumber: 71,
-                            columnNumber: 13
+                            lineNumber: 93,
+                            columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                        lineNumber: 70,
-                        columnNumber: 11
+                        lineNumber: 92,
+                        columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
                         type: "file",
                         className: "form-control",
                         id: "image",
-                        onChange: (e)=>setImageFile(e.target.files[0])
+                        onChange: (e)=>{
+                            const file = e.target.files[0];
+                            if (file) setNewImageFile(file);
+                        }
                     }, void 0, false, {
                         fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                        lineNumber: 82,
-                        columnNumber: 9
+                        lineNumber: 103,
+                        columnNumber: 7
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                lineNumber: 68,
+                lineNumber: 90,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -26418,13 +26452,41 @@ function NoteEditor({ refreshNotes }) {
                 children: "Submit"
             }, void 0, false, {
                 fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                lineNumber: 89,
+                lineNumber: 115,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "summary-section mt-2",
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("textarea", {
+                        readOnly: true,
+                        className: "form-control",
+                        value: summary
+                    }, void 0, false, {
+                        fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
+                        lineNumber: 117,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                        onClick: handleGenerateSummary,
+                        id: "summary-btn",
+                        className: "btn btn-secondary mt-3",
+                        children: "Generate Summary"
+                    }, void 0, false, {
+                        fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
+                        lineNumber: 118,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
+                lineNumber: 116,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true);
 }
-_s(NoteEditor, "UgBQkpDpqguP26M43XFeBd8/Yyo=", false, function() {
+_s(NoteEditor, "svLuAGxwgRwV4A3zyfrNrOCOD5k=", false, function() {
     return [
         (0, _reactRouterDom.useLocation)
     ];

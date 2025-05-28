@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
+const fs = require('fs');
 const Note = require("./models/Note");
 const User = require("./models/User");
 const cors = require('cors');
@@ -30,12 +31,11 @@ const storage = multer.diskStorage({
 const upload = multer({storage: storage})
 
 app.use(express.static('pages'));
-app.use('/Images', express.static(path.join(__dirname, 'Images')));
+app.use('/Images', express.static(path.join(__dirname, '..', 'Images')));
 
 // AI API stuff
 const Groq = require("groq-sdk");
 const groq = new Groq({ apiKey: "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" });
-
 
 
 app.use(express.json());
@@ -102,10 +102,6 @@ app.post("/api/addnote", async (req, res) => {
     email
   };
 
-  if (req.file) {
-    noteData.imagePath = '/Images/' + req.file.filename; // relative path
-  }
-
   let note = await Note.create(noteData);
   res.status(200).json({ success: true, note });
   } catch (err) {
@@ -114,9 +110,18 @@ app.post("/api/addnote", async (req, res) => {
   }
 });
 
-app.post("/api/updatenote", async (req, res) => {
+app.post("/api/updatenote", upload.single('image'), async (req, res) => {
   const { id, title, desc } = req.body;
-  const updatedNote = await Note.findByIdAndUpdate(id, { title, desc }, { new: true });
+
+  let updatedNote = null;
+  if (req.file) {
+    const imagePath = '/Images/' + req.file.filename;
+    updatedNote = await Note.findByIdAndUpdate(id, { title, desc, imagePath }, { new: true });
+  }
+  else
+  {
+    updatedNote = await Note.findByIdAndUpdate(id, { title, desc }, { new: true });
+  }
   res.status(200).json({ success: true, note: updatedNote });
 });
 
@@ -126,7 +131,26 @@ app.post("/api/deletenote", async (req, res) => {
   res.status(200).json({ success: true, message: "Note deleted" });
 });
 
-app.post("/summarise", async (req, res) => {
+app.post('/api/deleteimage', (req, res) => {
+  const { path: imagePath } = req.body;
+
+  if (!imagePath || typeof imagePath !== 'string') {
+    return res.status(400).json({ success: false, message: 'Invalid path' });
+  }
+
+  const fileName = imagePath.split('/').pop();
+  const fullPath = path.join(__dirname, '..', 'Images', fileName);
+
+  fs.unlink(fullPath, (err) => {
+    if (err) {
+      console.error('Failed to delete image:', err);
+      return res.status(500).json({ success: false, message: 'Failed to delete file', error: err.message });
+    }
+    return res.json({ success: true, message: 'Image deleted' });
+  });
+});
+
+app.post("/api/summarise", async (req, res) => {
   const { text } = req.body;
 
   try {
@@ -162,9 +186,9 @@ app.post("/summarise", async (req, res) => {
 });
 
 // Serve React frontend
-app.use(express.static(path.join(__dirname, "../client/build")));
+app.use(express.static(path.join(__dirname, "../frontend/build")));
 app.get(/^(?!\/api).*/, (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build/index.html"));
+  res.sendFile(path.join(__dirname, "../frontend/build/index.html"));
 });
 
 app.listen(port, () => {

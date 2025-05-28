@@ -4,16 +4,17 @@ import { postData } from '../../../../backend/api';
 
 export default function NoteEditor({ refreshNotes }) {
   const [desc, setDesc] = useState('');
-  const [imageFile, setImageFile] = useState(null);
+  const [imageFile, setImageFile] = useState('');
+  const [newImageFile, setNewImageFile] = useState(null);
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const noteId = queryParams.get('id');
 
-  useEffect(() => {
-    const fetchNote = async () => {
-      if (!noteId) return;
+  const fetchNote = async () => {
+    if (!noteId) return;
 
+    try {
       const data = await postData('/api/getnote', { id: noteId });
       if (data.success) {
         setDesc(data.note.desc);
@@ -21,41 +22,62 @@ export default function NoteEditor({ refreshNotes }) {
       } else {
         alert('Note not found');
       }
-    };
+    } catch (err) {
+      alert('Error fetching note: ' + err.message);
+    }
+  };
 
+  useEffect(() => {
     fetchNote();
   }, [noteId]);
 
   const handleSubmit = async () => {
     const email = JSON.parse(localStorage.getItem('user'))?.email;
-    const imageInput = document.getElementById('image');
-    const image = imageInput?.files?.[0];
 
     let data;
 
-    if (image) {
-      const formData = new FormData();
-      formData.append('id', noteId);
-      formData.append('desc', desc);
-      formData.append('email', email);
-      formData.append('image', image);
-
-      data = await postData('/api/updatenote', formData);
-
-      document.getElementById('image').value = null;
-      setImageFile(null);
-    } else {
-      data = await postData('/api/updatenote', {
-        id: noteId,
-        desc,
-        email
-      });
+    const formData = new FormData();
+    formData.append('id', noteId);
+    formData.append('desc', desc);
+    formData.append('email', email);
+    if (newImageFile) {
+      if (typeof imageFile === 'string' && imageFile.trim() !== '') {
+        await postData('/api/deleteimage', { path: imageFile });
+      }
+      formData.append('image', newImageFile);
     }
+    data = await postData('/api/updatenote', formData);
 
     if (data.success) {
+      fetchNote();
       refreshNotes();
     } else {
       alert('Failed to save note');
+    }
+  };
+
+  const [summary, setSummary] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleGenerateSummary = async () => {
+    if (!desc) return alert('Please enter some text to summarise.');
+
+    setLoading(true);
+    setSummary('');
+
+    try {
+      const data = await postData('/api/summarise', { text: desc });
+
+      if (data.success) {
+        setSummary(data.summary);
+      } else {
+        alert('Failed to generate summary.');
+      }
+    } catch (error) {
+      console.error('Error generating summary:', error);
+      alert('Error while summarizing.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -66,27 +88,35 @@ export default function NoteEditor({ refreshNotes }) {
         <textarea className="form-control" id="desc" value={desc} onChange={e => setDesc(e.target.value)} />
       </div>
       <div className="mb-3">
-        {imageFile && (
-          <div className="mb-3">
-            <img
-              src={
-                typeof imageFile === 'string'
-                  ? imageFile
-                  : URL.createObjectURL(imageFile)
-              }
-              alt="Note"
-              style={{ maxWidth: '20%', height: 'auto' }}
-            />
-          </div>
-        )}
-        <input
-          type="file"
-          className="form-control"
-          id="image"
-          onChange={e => setImageFile(e.target.files[0])}
-        />
+      {(newImageFile || (typeof imageFile === 'string' && imageFile.trim() !== '')) && (
+        <div className="mb-3">
+          <img
+            src={
+              newImageFile
+                ? URL.createObjectURL(newImageFile)
+                : imageFile
+            }
+            style={{ minWidth: '20%', maxWidth: '20%', height: 'auto' }}
+          />
+        </div>
+      )}
+      <input
+        type="file"
+        className="form-control"
+        id="image"
+        onChange={e => {
+          const file = e.target.files[0];
+          if (file) {
+            setNewImageFile(file);
+          }
+        }}
+      />
       </div>
       <button onClick={handleSubmit} className="btn btn-primary">Submit</button>
+      <div className="summary-section mt-2">
+        <textarea readOnly className="form-control" value={summary} />
+        <button onClick={handleGenerateSummary} id="summary-btn" className="btn btn-secondary mt-3">Generate Summary</button>
+      </div>
     </>
   );
 }
