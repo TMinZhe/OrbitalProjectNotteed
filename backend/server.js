@@ -8,9 +8,6 @@ const cors = require('cors');
 const app = express();
 const port = 5073;
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
 // Enable CORS
 app.use(cors({
   origin: 'http://localhost:3000',
@@ -32,14 +29,13 @@ const storage = multer.diskStorage({
 })
 const upload = multer({storage: storage})
 
-const Groq = require("groq-sdk");
-
-const groq = new Groq({ apiKey: "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" });
-
 app.use(express.static('pages'));
 app.use('/Images', express.static(path.join(__dirname, 'Images')));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+
+// AI API stuff
+const Groq = require("groq-sdk");
+const groq = new Groq({ apiKey: "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" });
+
 
 
 app.use(express.json());
