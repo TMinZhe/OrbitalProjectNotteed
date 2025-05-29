@@ -6,6 +6,7 @@ export default function NoteEditor({ refreshNotes }) {
   const [desc, setDesc] = useState('');
   const [imageFile, setImageFile] = useState('');
   const [newImageFile, setNewImageFile] = useState(null);
+  const [imageUrl, setImageUrl] = useState('');
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -31,6 +32,26 @@ export default function NoteEditor({ refreshNotes }) {
     fetchNote();
   }, [noteId]);
 
+  useEffect(() => {
+    if (newImageFile) {
+      const url = URL.createObjectURL(newImageFile);
+      setImageUrl(url);
+      return () => URL.revokeObjectURL(url);
+    } 
+    else if (imageFile) {
+      const fullUrl = `http://localhost:5073${imageFile}?t=${Date.now()}`;
+      
+      fetch(fullUrl)
+        .then(response => {
+          return response.blob();
+        })
+        .then(blob => {
+          setImageUrl(fullUrl);
+        })
+        .catch(err => console.error("Image test failed:", err));
+    }
+  }, [newImageFile, imageFile]);
+
   const handleSubmit = async () => {
     const email = JSON.parse(localStorage.getItem('user'))?.email;
 
@@ -41,9 +62,6 @@ export default function NoteEditor({ refreshNotes }) {
     formData.append('desc', desc);
     formData.append('email', email);
     if (newImageFile) {
-      if (typeof imageFile === 'string' && imageFile.trim() !== '') {
-        await postData('/api/deleteimage', { path: imageFile });
-      }
       formData.append('image', newImageFile);
     }
     data = await postData('/api/updatenote', formData);
@@ -88,14 +106,10 @@ export default function NoteEditor({ refreshNotes }) {
         <textarea className="form-control" id="desc" value={desc} onChange={e => setDesc(e.target.value)} />
       </div>
       <div className="mb-3">
-      {(newImageFile || (typeof imageFile === 'string' && imageFile.trim() !== '')) && (
+      {(imageUrl) && (
         <div className="mb-3">
           <img
-            src={
-              newImageFile
-                ? URL.createObjectURL(newImageFile)
-                : imageFile
-            }
+            src={imageUrl}
             style={{ minWidth: '20%', maxWidth: '20%', height: 'auto' }}
           />
         </div>

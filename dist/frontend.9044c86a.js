@@ -26139,7 +26139,7 @@ $RefreshReg$(_c, "NotesPage");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","../../components/NoteCard/NoteCard":"aDR0f","../../components/NoteEditor/NoteEditor":"1EsdC","../../components/CustomisationBar/CustomisationBar":"4PBzb","../../../../backend/api":"3VpZi","./NotesPage.css":"jrOO4","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","react-router-dom":"61z4w"}],"aDR0f":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-router-dom":"61z4w","../../components/NoteCard/NoteCard":"aDR0f","../../components/NoteEditor/NoteEditor":"1EsdC","../../components/CustomisationBar/CustomisationBar":"4PBzb","../../../../backend/api":"3VpZi","./NotesPage.css":"jrOO4","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"aDR0f":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$b886 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$b886.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -26315,6 +26315,7 @@ function NoteEditor({ refreshNotes }) {
     const [desc, setDesc] = (0, _react.useState)('');
     const [imageFile, setImageFile] = (0, _react.useState)('');
     const [newImageFile, setNewImageFile] = (0, _react.useState)(null);
+    const [imageUrl, setImageUrl] = (0, _react.useState)('');
     const location = (0, _reactRouterDom.useLocation)();
     const queryParams = new URLSearchParams(location.search);
     const noteId = queryParams.get('id');
@@ -26337,6 +26338,23 @@ function NoteEditor({ refreshNotes }) {
     }, [
         noteId
     ]);
+    (0, _react.useEffect)(()=>{
+        if (newImageFile) {
+            const url = URL.createObjectURL(newImageFile);
+            setImageUrl(url);
+            return ()=>URL.revokeObjectURL(url);
+        } else if (imageFile) {
+            const fullUrl = `http://localhost:5073${imageFile}?t=${Date.now()}`;
+            fetch(fullUrl).then((response)=>{
+                return response.blob();
+            }).then((blob)=>{
+                setImageUrl(fullUrl);
+            }).catch((err)=>console.error("Image test failed:", err));
+        }
+    }, [
+        newImageFile,
+        imageFile
+    ]);
     const handleSubmit = async ()=>{
         const email = JSON.parse(localStorage.getItem('user'))?.email;
         let data;
@@ -26344,12 +26362,7 @@ function NoteEditor({ refreshNotes }) {
         formData.append('id', noteId);
         formData.append('desc', desc);
         formData.append('email', email);
-        if (newImageFile) {
-            if (typeof imageFile === 'string' && imageFile.trim() !== '') await (0, _api.postData)('/api/deleteimage', {
-                path: imageFile
-            });
-            formData.append('image', newImageFile);
-        }
+        if (newImageFile) formData.append('image', newImageFile);
         data = await (0, _api.postData)('/api/updatenote', formData);
         if (data.success) {
             fetchNote();
@@ -26386,7 +26399,7 @@ function NoteEditor({ refreshNotes }) {
                         children: "Description"
                     }, void 0, false, {
                         fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                        lineNumber: 87,
+                        lineNumber: 105,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("textarea", {
@@ -26396,22 +26409,22 @@ function NoteEditor({ refreshNotes }) {
                         onChange: (e)=>setDesc(e.target.value)
                     }, void 0, false, {
                         fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                        lineNumber: 88,
+                        lineNumber: 106,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                lineNumber: 86,
+                lineNumber: 104,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 className: "mb-3",
                 children: [
-                    (newImageFile || typeof imageFile === 'string' && imageFile.trim() !== '') && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                    imageUrl && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                         className: "mb-3",
                         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
-                            src: newImageFile ? URL.createObjectURL(newImageFile) : imageFile,
+                            src: imageUrl,
                             style: {
                                 minWidth: '20%',
                                 maxWidth: '20%',
@@ -26419,12 +26432,12 @@ function NoteEditor({ refreshNotes }) {
                             }
                         }, void 0, false, {
                             fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                            lineNumber: 93,
+                            lineNumber: 111,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                        lineNumber: 92,
+                        lineNumber: 110,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -26437,13 +26450,13 @@ function NoteEditor({ refreshNotes }) {
                         }
                     }, void 0, false, {
                         fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                        lineNumber: 103,
+                        lineNumber: 117,
                         columnNumber: 7
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                lineNumber: 90,
+                lineNumber: 108,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -26452,7 +26465,7 @@ function NoteEditor({ refreshNotes }) {
                 children: "Submit"
             }, void 0, false, {
                 fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                lineNumber: 115,
+                lineNumber: 129,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -26464,7 +26477,7 @@ function NoteEditor({ refreshNotes }) {
                         value: summary
                     }, void 0, false, {
                         fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                        lineNumber: 117,
+                        lineNumber: 131,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -26474,19 +26487,19 @@ function NoteEditor({ refreshNotes }) {
                         children: "Generate Summary"
                     }, void 0, false, {
                         fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                        lineNumber: 118,
+                        lineNumber: 132,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                lineNumber: 116,
+                lineNumber: 130,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true);
 }
-_s(NoteEditor, "svLuAGxwgRwV4A3zyfrNrOCOD5k=", false, function() {
+_s(NoteEditor, "dc6cPhYnazOKybtWupPPBmMaIOg=", false, function() {
     return [
         (0, _reactRouterDom.useLocation)
     ];

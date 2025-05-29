@@ -21,17 +21,28 @@ app.use(cors({
 const multer = require('multer')
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'Images')
+    const uploadDir = path.join(__dirname, '..', 'Images');
+    // Ensure directory exists
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
   },
   filename: (req, file, cb) => {
-    console.log(file)
-    cb(null, Date.now() + path.extname(file.originalname))
+    cb(null, Date.now() + path.extname(file.originalname));
   }
-})
-const upload = multer({storage: storage})
+});
+
+const upload = multer({ 
+  storage: storage
+});
 
 app.use(express.static('pages'));
-app.use('/Images', express.static(path.join(__dirname, '..', 'Images')));
+app.use('/Images', express.static(path.join(__dirname, '..', 'Images'), {
+  setHeaders: (res, path) => {
+    res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
+  }
+}));
 
 // AI API stuff
 const Groq = require("groq-sdk");
@@ -111,18 +122,29 @@ app.post("/api/addnote", async (req, res) => {
 });
 
 app.post("/api/updatenote", upload.single('image'), async (req, res) => {
-  const { id, title, desc } = req.body;
+  const { id, desc } = req.body;
 
-  let updatedNote = null;
-  if (req.file) {
-    const imagePath = '/Images/' + req.file.filename;
-    updatedNote = await Note.findByIdAndUpdate(id, { title, desc, imagePath }, { new: true });
+  try {
+    let updateData = { desc };
+    
+    if (req.file) {
+      updateData.imagePath = `/Images/${req.file.filename}`;
+      
+      const oldNote = await Note.findById(id);
+      if (oldNote && oldNote.imagePath) {
+        const oldPath = path.join(__dirname, '..', oldNote.imagePath);
+        if (fs.existsSync(oldPath)) {
+          fs.unlinkSync(oldPath);
+        }
+      }
+    }
+
+    const updatedNote = await Note.findByIdAndUpdate(id, updateData, { new: true });
+    res.status(200).json({ success: true, note: updatedNote });
+  } catch (err) {
+    console.error("Update error:", err);
+    res.status(500).json({ success: false, message: "Update failed" });
   }
-  else
-  {
-    updatedNote = await Note.findByIdAndUpdate(id, { title, desc }, { new: true });
-  }
-  res.status(200).json({ success: true, note: updatedNote });
 });
 
 app.post("/api/deletenote", async (req, res) => {
@@ -194,10 +216,3 @@ app.get(/^(?!\/api).*/, (req, res) => {
 app.listen(port, () => {
   console.log(`🚀 Server running at http://localhost:${port}`);
 });
-
-app.use(cors({
-  origin: 'http://localhost:3000',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
-}));
