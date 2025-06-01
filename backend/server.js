@@ -46,7 +46,7 @@ app.use('/Images', express.static(path.join(__dirname, '..', 'Images'), {
 
 // AI API stuff
 const Groq = require("groq-sdk");
-const groq = new Groq({ apiKey: "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" });
+const groq = new Groq({ apiKey: "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" });
 
 
 app.use(express.json());
