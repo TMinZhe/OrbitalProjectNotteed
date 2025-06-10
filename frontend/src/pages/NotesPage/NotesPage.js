@@ -54,7 +54,7 @@ export default function NotesPage() {
 
   return (
     <div className="notes-page">
-      <CustomisationBar />
+      { /* <CustomisationBar /> */ }
       <div className="notes-content">
         <div className="note-list" style={{ backgroundColor: '#9ecadb' }}>
           <div style={{display: 'flex', gap: '1rem'}}>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { postData } from '../../../../backend/api';
+import Canvas from '../Canvas/Canvas';
 
 export default function NoteEditor({ refreshNotes }) {
   const [desc, setDesc] = useState('');
@@ -131,6 +132,7 @@ export default function NoteEditor({ refreshNotes }) {
         <textarea readOnly className="form-control" value={summary} />
         <button onClick={handleGenerateSummary} id="summary-btn" className="btn btn-secondary mt-3">Generate Summary</button>
       </div>
+      <Canvas />
     </>
   );
 }
