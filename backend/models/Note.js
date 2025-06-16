@@ -5,6 +5,10 @@ const noteSchema = new mongoose.Schema({
     desc: {type: String, required: false},
     email: {type: String, required: true},
     imagePath: String,
+    canvasData: {
+        lines: Array,
+        textBoxes: Array
+    },
 }, {timestamps: true});
 
 module.exports = mongoose.model('Note', noteSchema);

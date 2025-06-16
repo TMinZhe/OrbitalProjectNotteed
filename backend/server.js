@@ -57,6 +57,7 @@ mongoose.connect("mongodb+srv://admin:adminPassword@notteed.ikk6zmi.mongodb.net/
   .then(() => console.log("✅ Successfully connected to MongoDB Atlas"))
   .catch((error) => console.error("❌ MongoDB connection error:", error));
 
+
 // API endpoints
 app.post('/api/getnote', async (req, res) => {
   const { id } = req.body;
@@ -122,10 +123,14 @@ app.post("/api/addnote", async (req, res) => {
 });
 
 app.post("/api/updatenote", upload.single('image'), async (req, res) => {
-  const { id, desc } = req.body;
+  const { id, desc, canvasData } = req.body;
 
   try {
     let updateData = { desc };
+
+    if (canvasData) {
+      updateData.canvasData = JSON.parse(canvasData);
+    }
     
     if (req.file) {
       updateData.imagePath = `/Images/${req.file.filename}`;

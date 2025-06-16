@@ -26311,6 +26311,9 @@ function NoteEditor({ refreshNotes }) {
     const [imageFile, setImageFile] = (0, _react.useState)('');
     const [newImageFile, setNewImageFile] = (0, _react.useState)(null);
     const [imageUrl, setImageUrl] = (0, _react.useState)('');
+    // Canvas
+    const [lines, setLines] = (0, _react.useState)([]);
+    const [textBoxes, setTextBoxes] = (0, _react.useState)([]);
     const location = (0, _reactRouterDom.useLocation)();
     const queryParams = new URLSearchParams(location.search);
     const noteId = queryParams.get('id');
@@ -26323,6 +26326,9 @@ function NoteEditor({ refreshNotes }) {
             if (data.success) {
                 setDesc(data.note.desc);
                 setImageFile(data.note.imagePath);
+                const canvas = data.note.canvasData || {};
+                setLines(canvas.lines || []);
+                setTextBoxes(canvas.textBoxes || []);
             } else alert('Note not found');
         } catch (err) {
             alert('Error fetching note: ' + err.message);
@@ -26358,6 +26364,10 @@ function NoteEditor({ refreshNotes }) {
         formData.append('desc', desc);
         formData.append('email', email);
         if (newImageFile) formData.append('image', newImageFile);
+        formData.append('canvasData', JSON.stringify({
+            lines,
+            textBoxes
+        }));
         data = await (0, _api.postData)('/api/updatenote', formData);
         if (data.success) {
             fetchNote();
@@ -26394,7 +26404,7 @@ function NoteEditor({ refreshNotes }) {
                         children: "Description"
                     }, void 0, false, {
                         fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                        lineNumber: 106,
+                        lineNumber: 116,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("textarea", {
@@ -26404,13 +26414,13 @@ function NoteEditor({ refreshNotes }) {
                         onChange: (e)=>setDesc(e.target.value)
                     }, void 0, false, {
                         fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                        lineNumber: 107,
+                        lineNumber: 117,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                lineNumber: 105,
+                lineNumber: 115,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -26427,12 +26437,12 @@ function NoteEditor({ refreshNotes }) {
                             }
                         }, void 0, false, {
                             fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                            lineNumber: 112,
+                            lineNumber: 122,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                        lineNumber: 111,
+                        lineNumber: 121,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -26445,22 +26455,22 @@ function NoteEditor({ refreshNotes }) {
                         }
                     }, void 0, false, {
                         fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                        lineNumber: 118,
+                        lineNumber: 128,
                         columnNumber: 7
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                lineNumber: 109,
+                lineNumber: 119,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                 onClick: handleSubmit,
                 className: "btn btn-primary",
-                children: "Submit"
+                children: "Save"
             }, void 0, false, {
                 fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                lineNumber: 130,
+                lineNumber: 140,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -26472,7 +26482,7 @@ function NoteEditor({ refreshNotes }) {
                         value: summary
                     }, void 0, false, {
                         fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                        lineNumber: 132,
+                        lineNumber: 142,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -26482,24 +26492,29 @@ function NoteEditor({ refreshNotes }) {
                         children: "Generate Summary"
                     }, void 0, false, {
                         fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                        lineNumber: 133,
+                        lineNumber: 143,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                lineNumber: 131,
+                lineNumber: 141,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _canvasDefault.default), {}, void 0, false, {
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _canvasDefault.default), {
+                lines: lines,
+                setLines: setLines,
+                textBoxes: textBoxes,
+                setTextBoxes: setTextBoxes
+            }, void 0, false, {
                 fileName: "frontend/src/components/NoteEditor/NoteEditor.js",
-                lineNumber: 135,
+                lineNumber: 145,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true);
 }
-_s(NoteEditor, "dc6cPhYnazOKybtWupPPBmMaIOg=", false, function() {
+_s(NoteEditor, "wvTNZKMOo+9hWG3KB1LjDlCO0uk=", false, function() {
     return [
         (0, _reactRouterDom.useLocation)
     ];
@@ -26525,14 +26540,13 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "default", ()=>Canvas);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _api = require("../../../../backend/api");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _reactKonva = require("react-konva");
 var _s = $RefreshSig$();
-function Canvas() {
+function Canvas({ lines, setLines, textBoxes, setTextBoxes }) {
     _s();
-    const [lines, setLines] = (0, _react.useState)([]);
-    const [textBoxes, setTextBoxes] = (0, _react.useState)([]);
     const [selectedId, setSelectedId] = (0, _react.useState)(null);
     const isDrawing = (0, _react.useRef)(false);
     const stageRef = (0, _react.useRef)(null);
@@ -26572,14 +26586,6 @@ function Canvas() {
     };
     const handleMouseUp = ()=>{
         isDrawing.current = false;
-    };
-    const captureStrokes = ()=>{
-        const uri = stageRef.current.toDataURL({
-            mimeType: 'image/png',
-            quality: 1,
-            pixelRatio: 2
-        });
-        sendToOCRAPI(uri);
     };
     const handleExport = ()=>{
         const uri = stageRef.current.toDataURL();
@@ -26674,7 +26680,7 @@ function Canvas() {
                 children: "Add Text Box"
             }, void 0, false, {
                 fileName: "frontend/src/components/Canvas/Canvas.js",
-                lineNumber: 152,
+                lineNumber: 141,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -26682,7 +26688,7 @@ function Canvas() {
                 children: "Export as Image"
             }, void 0, false, {
                 fileName: "frontend/src/components/Canvas/Canvas.js",
-                lineNumber: 153,
+                lineNumber: 142,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -26699,7 +26705,7 @@ function Canvas() {
                                         children: "Arial"
                                     }, void 0, false, {
                                         fileName: "frontend/src/components/Canvas/Canvas.js",
-                                        lineNumber: 157,
+                                        lineNumber: 146,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
@@ -26707,7 +26713,7 @@ function Canvas() {
                                         children: "Courier"
                                     }, void 0, false, {
                                         fileName: "frontend/src/components/Canvas/Canvas.js",
-                                        lineNumber: 158,
+                                        lineNumber: 147,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
@@ -26715,7 +26721,7 @@ function Canvas() {
                                         children: "Georgia"
                                     }, void 0, false, {
                                         fileName: "frontend/src/components/Canvas/Canvas.js",
-                                        lineNumber: 159,
+                                        lineNumber: 148,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("option", {
@@ -26723,19 +26729,19 @@ function Canvas() {
                                         children: "Times New Roman"
                                     }, void 0, false, {
                                         fileName: "frontend/src/components/Canvas/Canvas.js",
-                                        lineNumber: 160,
+                                        lineNumber: 149,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "frontend/src/components/Canvas/Canvas.js",
-                                lineNumber: 156,
+                                lineNumber: 145,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "frontend/src/components/Canvas/Canvas.js",
-                        lineNumber: 155,
+                        lineNumber: 144,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
@@ -26747,13 +26753,13 @@ function Canvas() {
                                 onChange: (e)=>setFontSize(+e.target.value)
                             }, void 0, false, {
                                 fileName: "frontend/src/components/Canvas/Canvas.js",
-                                lineNumber: 165,
+                                lineNumber: 154,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "frontend/src/components/Canvas/Canvas.js",
-                        lineNumber: 164,
+                        lineNumber: 153,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
@@ -26765,13 +26771,13 @@ function Canvas() {
                                 onChange: (e)=>setIsBold(e.target.checked)
                             }, void 0, false, {
                                 fileName: "frontend/src/components/Canvas/Canvas.js",
-                                lineNumber: 169,
+                                lineNumber: 158,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "frontend/src/components/Canvas/Canvas.js",
-                        lineNumber: 168,
+                        lineNumber: 157,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
@@ -26783,19 +26789,19 @@ function Canvas() {
                                 onChange: (e)=>setFontColor(e.target.value)
                             }, void 0, false, {
                                 fileName: "frontend/src/components/Canvas/Canvas.js",
-                                lineNumber: 173,
+                                lineNumber: 162,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "frontend/src/components/Canvas/Canvas.js",
-                        lineNumber: 172,
+                        lineNumber: 161,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "frontend/src/components/Canvas/Canvas.js",
-                lineNumber: 154,
+                lineNumber: 143,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactKonva.Stage), {
@@ -26821,7 +26827,7 @@ function Canvas() {
                             listening: false
                         }, void 0, false, {
                             fileName: "frontend/src/components/Canvas/Canvas.js",
-                            lineNumber: 186,
+                            lineNumber: 175,
                             columnNumber: 11
                         }, this),
                         lines.map((line, i)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactKonva.Line), {
@@ -26833,45 +26839,53 @@ function Canvas() {
                                 globalCompositeOperation: "source-over"
                             }, i, false, {
                                 fileName: "frontend/src/components/Canvas/Canvas.js",
-                                lineNumber: 196,
+                                lineNumber: 185,
                                 columnNumber: 13
                             }, this)),
                         textBoxes.map((t)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactKonva.Text), {
                                 id: t.id,
                                 ...t,
                                 onClick: ()=>setSelectedId(t.id),
-                                onDblClick: (e)=>handleTextDblClick(e, t.id)
+                                onDblClick: (e)=>handleTextDblClick(e, t.id),
+                                onDragEnd: (e)=>{
+                                    const { x, y } = e.target.position();
+                                    setTextBoxes((prev)=>prev.map((txt)=>txt.id === t.id ? {
+                                                ...txt,
+                                                x,
+                                                y
+                                            } : txt));
+                                }
                             }, t.id, false, {
                                 fileName: "frontend/src/components/Canvas/Canvas.js",
-                                lineNumber: 208,
+                                lineNumber: 197,
                                 columnNumber: 13
                             }, this)),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactKonva.Transformer), {
                             ref: trRef
                         }, void 0, false, {
                             fileName: "frontend/src/components/Canvas/Canvas.js",
-                            lineNumber: 217,
+                            lineNumber: 214,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "frontend/src/components/Canvas/Canvas.js",
-                    lineNumber: 185,
+                    lineNumber: 174,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "frontend/src/components/Canvas/Canvas.js",
-                lineNumber: 176,
+                lineNumber: 165,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "frontend/src/components/Canvas/Canvas.js",
-        lineNumber: 151,
+        lineNumber: 140,
         columnNumber: 5
     }, this);
 }
-_s(Canvas, "o5pU53665BCQHb7VV+Zfb0pA9Hs=");
+_s(Canvas, "PCpwgQr78ts1gFwX6FjyCQ+Id2A=");
 _c = Canvas;
 var _c;
 $RefreshReg$(_c, "Canvas");
@@ -26881,7 +26895,7 @@ $RefreshReg$(_c, "Canvas");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-konva":"5RGYZ","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"5RGYZ":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","../../../../backend/api":"3VpZi","react":"jMk1U","react-konva":"5RGYZ","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"5RGYZ":[function(require,module,exports,__globalThis) {
 /**
  * Based on ReactArt.js
  * Copyright (c) 2017-present Lavrenov Anton.

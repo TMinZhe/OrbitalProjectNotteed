@@ -1,9 +1,8 @@
+import { postData } from '../../../../backend/api';
 import React, { useRef, useState, useEffect } from 'react';
 import { Stage, Layer, Line, Text, Transformer, Rect } from 'react-konva';
 
-export default function Canvas() {
-  const [lines, setLines] = useState([]);
-  const [textBoxes, setTextBoxes] = useState([]);
+export default function Canvas({ lines, setLines, textBoxes, setTextBoxes }) {
   const [selectedId, setSelectedId] = useState(null);
 
   const isDrawing = useRef(false);
@@ -39,16 +38,6 @@ export default function Canvas() {
 
   const handleMouseUp = () => {
     isDrawing.current = false;
-  };
-
-  const captureStrokes = () => {
-    const uri = stageRef.current.toDataURL({
-      mimeType: 'image/png',
-      quality: 1,
-      pixelRatio: 2,
-    });
-
-    sendToOCRAPI(uri);
   };
 
   const handleExport = () => {
@@ -211,6 +200,14 @@ export default function Canvas() {
               {...t}
               onClick={() => setSelectedId(t.id)}
               onDblClick={(e) => handleTextDblClick(e, t.id)}
+              onDragEnd={(e) => {
+                const { x, y } = e.target.position();
+                setTextBoxes(prev =>
+                  prev.map(txt =>
+                    txt.id === t.id ? { ...txt, x, y } : txt
+                  )
+                );
+              }}
             />
           ))}
 

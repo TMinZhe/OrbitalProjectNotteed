@@ -9,6 +9,10 @@ export default function NoteEditor({ refreshNotes }) {
   const [newImageFile, setNewImageFile] = useState(null);
   const [imageUrl, setImageUrl] = useState('');
 
+  // Canvas
+  const [lines, setLines] = useState([]);
+  const [textBoxes, setTextBoxes] = useState([]);
+
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const noteId = queryParams.get('id');
@@ -21,6 +25,10 @@ export default function NoteEditor({ refreshNotes }) {
       if (data.success) {
         setDesc(data.note.desc);
         setImageFile(data.note.imagePath);
+
+        const canvas = data.note.canvasData || {};
+        setLines(canvas.lines || []);
+        setTextBoxes(canvas.textBoxes || []);
       } else {
         alert('Note not found');
       }
@@ -65,6 +73,8 @@ export default function NoteEditor({ refreshNotes }) {
     if (newImageFile) {
       formData.append('image', newImageFile);
     }
+    formData.append('canvasData', JSON.stringify({ lines, textBoxes }));
+    
     data = await postData('/api/updatenote', formData);
 
     if (data.success) {
@@ -127,12 +137,17 @@ export default function NoteEditor({ refreshNotes }) {
         }}
       />
       </div>
-      <button onClick={handleSubmit} className="btn btn-primary">Submit</button>
+      <button onClick={handleSubmit} className="btn btn-primary">Save</button>
       <div className="summary-section mt-2">
         <textarea readOnly className="form-control" value={summary} />
         <button onClick={handleGenerateSummary} id="summary-btn" className="btn btn-secondary mt-3">Generate Summary</button>
       </div>
-      <Canvas />
+      <Canvas 
+        lines={lines}
+        setLines={setLines}
+        textBoxes={textBoxes}
+        setTextBoxes={setTextBoxes}
+      />
     </>
   );
 }
