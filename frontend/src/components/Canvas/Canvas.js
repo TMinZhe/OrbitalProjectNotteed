@@ -1,6 +1,10 @@
 import { postData } from '../../../../backend/api';
 import React, { useRef, useState, useEffect } from 'react';
 import { Stage, Layer, Line, Text, Transformer, Rect } from 'react-konva';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import { Document, Packer, Paragraph, ImageRun } from 'docx';
+import { saveAs } from 'file-saver';
 
 export default function Canvas({ lines, setLines, textBoxes, setTextBoxes }) {
   const [selectedId, setSelectedId] = useState(null);
@@ -46,6 +50,49 @@ export default function Canvas({ lines, setLines, textBoxes, setTextBoxes }) {
     link.download = 'drawing.png';
     link.href = uri;
     link.click();
+  };
+
+  
+  const handleExportPDF = async () => {
+    const stage = stageRef.current;
+    const dataUrl = stage.toDataURL({ pixelRatio: 2 });
+
+    const pdf = new jsPDF({
+      orientation: 'landscape',
+      unit: 'px',
+      format: [stage.width(), stage.height()]
+    });
+
+    pdf.addImage(dataUrl, 'PNG', 0, 0, stage.width(), stage.height());
+    pdf.save('canvas.pdf');
+  };
+
+  const handleExportDocx = async () => {
+    const dataUrl = stageRef.current.toDataURL({ pixelRatio: 2 });
+    const res = await fetch(dataUrl);
+    const blob = await res.blob();
+    const buffer = await blob.arrayBuffer();
+
+    const doc = new Document({
+      sections: [{
+        children: [
+          new Paragraph({
+            children: [
+              new ImageRun({
+                data: buffer,
+                transformation: {
+                  width: stageRef.current.width(),
+                  height: stageRef.current.height(),
+                },
+              }),
+            ],
+          }),
+        ],
+      }],
+    });
+
+    const pack = await Packer.toBlob(doc);
+    saveAs(pack, 'canvas.docx');
   };
 
   const addTextBox = () => {
@@ -140,6 +187,8 @@ export default function Canvas({ lines, setLines, textBoxes, setTextBoxes }) {
     <div>
       <button onClick={addTextBox}>Add Text Box</button>
       <button onClick={handleExport}>Export as Image</button>
+      <button onClick={handleExportPDF}>Export as PDF</button>
+      <button onClick={handleExportDocx}>Export as DOCX</button>
       <div>
         <label>Font:
           <select value={fontFamily} onChange={e => setFontFamily(e.target.value)}>
