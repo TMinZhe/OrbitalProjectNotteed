@@ -62,6 +62,45 @@
   background-color: #dcdcdc;
 }
 
+.sharing-absolute-overlay {
+  z-index: 99;
+  background-color: #0006;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.sharing-absolute-window {
+  background: #fff;
+  border-radius: 8px;
+  width: 600px;
+  max-width: 90%;
+  padding: 2rem;
+  box-shadow: 0 0 30px #00000040;
+}
+
+.share-link {
+  align-items: center;
+  gap: .5rem;
+  margin-top: 1rem;
+  display: flex;
+}
+
+.share-link input {
+  border: 1px solid #ccc;
+  flex: 1;
+  padding: .4rem;
+}
+
+.close-btn {
+  margin-top: 1rem;
+}
+
 .notes-page {
   height: 100%;
 }
@@ -76,7 +115,9 @@
 .note-list {
   flex: 0 0 20%;
   height: 100%;
+  max-height: 95vh;
   padding: 1rem;
+  overflow-y: auto;
 }
 
 .note-editor {

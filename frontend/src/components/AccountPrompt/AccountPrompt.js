@@ -6,10 +6,11 @@ const handleLogout = () => {
   window.location.href = '/';
 };
 
+// Prompt for additional account options (only logout)
 export default function AccountPrompt() {
     return (
-        <div id='account-prompt'>
-            <button id='account-prompt-logout' onClick={handleLogout}>Log Out</button>
+        <div>
+            <button onClick={handleLogout}>Log Out</button>
         </div>
     );
 }

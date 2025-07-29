@@ -3,10 +3,11 @@ import SignupPrompt from "../components/SignupPrompt/SignupPrompt";
 
 import { useLocation } from 'react-router-dom';
 
+// Login/Signup Page
 export default function AccountPage() {
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
-  const action = params.get('action'); // 'login' or 'signup'
+  const location = useLocation(); // Gets URL
+  const urlKeys = new URLSearchParams(location.search); 
+  const action = urlKeys.get('action'); // 'login' or 'signup'
 
   return (
     <>

@@ -22,12 +22,16 @@ export default function SignupPrompt() {
       return;
     }
 
-    const res = await postData('/api/signup', { email, password });
-    if (res.success) {
-      setSignupMsg('Signup successful!');
-      navigate('/login');
-    } else {
-      setSignupMsg('Signup failed: ' + (res.message || 'Unknown error'));
+    try {
+      const res = await postData('/api/signup', { email, password });
+      if (res.success) {
+        setSignupMsg('Signup successful!');
+        navigate('/login');
+      } else {
+        setSignupMsg('Signup failed: ' + (res.message || 'Unknown error'));
+      }
+    } catch (err) {
+      setSignupMsg('Signup failed: ' + err.message);
     }
   };
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { postData } from '../../../../backend/api';
 import './NoteCard.css';
 
+// UI to browse owned notes
 export default function NoteCard({ note, refreshNotes }) {
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(note.title);
@@ -34,7 +35,6 @@ export default function NoteCard({ note, refreshNotes }) {
         const data = await postData('/api/updatenote', {
           id: note._id,
           title,
-          desc: note.desc,
         });
         if (data.success) {
           refreshNotes();

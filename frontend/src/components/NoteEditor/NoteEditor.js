@@ -2,33 +2,41 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { postData } from '../../../../backend/api';
 import Canvas from '../Canvas/Canvas';
+import SharingWindow from '../SharingWindow/SharingWindow';
 
-export default function NoteEditor({ refreshNotes }) {
-  const [desc, setDesc] = useState('');
-  const [imageFile, setImageFile] = useState('');
-  const [newImageFile, setNewImageFile] = useState(null);
-  const [imageUrl, setImageUrl] = useState('');
+// UI to edit all components of a note
+export default function NoteEditor({ note, refreshNotes, editable }) {
+  const [showShare, setShowShare] = useState(false);
+
+  // Owner Verification
+  const [localNote, setLocalNote] = useState(null);
+  const currentUser = JSON.parse(localStorage.getItem('user'));
+  const isOwner = localNote && currentUser?.email === localNote.email;
 
   // Canvas
   const [lines, setLines] = useState([]);
   const [textBoxes, setTextBoxes] = useState([]);
-
+  const [images, setImages] = useState([]);
+  
+  // Note ID
   const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const noteId = queryParams.get('id');
+  const urlKeys = new URLSearchParams(location.search);
+  const noteId = urlKeys.get('id');
 
+  // Fetches note contents and saves into variables
   const fetchNote = async () => {
-    if (!noteId) return;
+    // If note parameter was not passed, search for it in local storage
+    if (!noteId || note === null) return;
 
     try {
       const data = await postData('/api/getnote', { id: noteId });
       if (data.success) {
-        setDesc(data.note.desc);
-        setImageFile(data.note.imagePath);
+        setLocalNote(data.note);
 
         const canvas = data.note.canvasData || {};
         setLines(canvas.lines || []);
         setTextBoxes(canvas.textBoxes || []);
+        loadImages(canvas.images || []);
       } else {
         alert('Note not found');
       }
@@ -37,45 +45,51 @@ export default function NoteEditor({ refreshNotes }) {
     }
   };
 
+  const createImageFromSrc = (src) => {
+    return new Promise((resolve) => {
+      const img = new window.Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => resolve(img);
+      img.src = src;
+    });
+  };
+
+  const loadImages = async (images) => {
+    const loadedImages = await Promise.all(
+      (images || []).map(async (img) => {
+        const loadedImage = await createImageFromSrc(img.src);
+        return {
+          ...img,
+          image: loadedImage,
+        };
+      })
+    );
+    setImages(loadedImages);
+  };
+
+  // If note param was passed in, set variables accordingly
+  useEffect(() => {
+    if (note) {
+      setLocalNote(note);
+      const canvas = note.canvasData || {};
+      setLines(canvas.lines || []);
+      setTextBoxes(canvas.textBoxes || []);
+      loadImages(canvas.images || []);
+    }
+  }, [note]);
+
   useEffect(() => {
     fetchNote();
   }, [noteId]);
 
-  useEffect(() => {
-    if (newImageFile) {
-      const url = URL.createObjectURL(newImageFile);
-      setImageUrl(url);
-      return () => URL.revokeObjectURL(url);
-    } 
-    else if (imageFile) {
-      const fullUrl = `http://localhost:5073${imageFile}?t=${Date.now()}`;
-      
-      fetch(fullUrl)
-        .then(response => {
-          return response.blob();
-        })
-        .then(blob => {
-          setImageUrl(fullUrl);
-        })
-        .catch(err => console.error("Image test failed:", err));
-    }
-  }, [newImageFile, imageFile]);
-
   const handleSubmit = async () => {
-    const email = JSON.parse(localStorage.getItem('user'))?.email;
+    const payload = {
+      id: noteId || note?._id,
+      email: localNote.email,
+      canvasData: JSON.stringify({ lines, textBoxes, images }),
+    };
 
-    let data;
-
-    const formData = new FormData();
-    formData.append('id', noteId);
-    formData.append('desc', desc);
-    formData.append('email', email);
-    if (newImageFile) {
-      formData.append('image', newImageFile);
-    }
-    formData.append('canvasData', JSON.stringify({ lines, textBoxes }));
-    
-    data = await postData('/api/updatenote', formData);
+    const data = await postData('/api/updatenote', payload);
 
     if (data.success) {
       fetchNote();
@@ -85,69 +99,39 @@ export default function NoteEditor({ refreshNotes }) {
     }
   };
 
-  const [summary, setSummary] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  const handleGenerateSummary = async () => {
-    if (!desc) return alert('Please enter some text to summarise.');
-
-    setLoading(true);
-    setSummary('');
-
-    try {
-      const data = await postData('/api/summarise', { text: desc });
-
-      if (data.success) {
-        setSummary(data.summary);
-      } else {
-        alert('Failed to generate summary.');
-      }
-    } catch (error) {
-      console.error('Error generating summary:', error);
-      alert('Error while summarizing.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
-    <>
-      <div className="mb-3">
-        <label htmlFor="desc" className="form-label">Description</label>
-        <textarea className="form-control" id="desc" value={desc} onChange={e => setDesc(e.target.value)} />
-      </div>
-      <div className="mb-3">
-      {(imageUrl) && (
-        <div className="mb-3">
-          <img
-            src={imageUrl}
-            style={{ minWidth: '20%', maxWidth: '20%', height: 'auto' }}
-          />
-        </div>
+    <div
+      style={{
+        maxWidth: '80vw',
+        maxHeight: '90vh',
+        overflowY: 'auto',
+        overflowX: 'hidden',
+        margin: '0 auto',
+        padding: '1rem',
+      }}
+    >
+      {isOwner && (
+        <button onClick={() => setShowShare(true)}>Share</button>
       )}
-      <input
-        type="file"
-        className="form-control"
-        id="image"
-        onChange={e => {
-          const file = e.target.files[0];
-          if (file) {
-            setNewImageFile(file);
-          }
-        }}
+      <SharingWindow
+        noteId={noteId}
+        isOpen={showShare}
+        onClose={() => setShowShare(false)}
       />
+      <button onClick={handleSubmit} className="btn btn-primary" disabled={!editable}>
+        {editable ? "Save" : "View Only"}
+      </button>
+      <div style={{ width: '100%', overflowX: 'auto' }}>
+        <Canvas
+          lines={lines}
+          setLines={setLines}
+          textBoxes={textBoxes}
+          setTextBoxes={setTextBoxes}
+          images={images}
+          setImages={setImages}
+          style={{ width: '100%', maxWidth: '100%' }}
+        />
       </div>
-      <button onClick={handleSubmit} className="btn btn-primary">Save</button>
-      <div className="summary-section mt-2">
-        <textarea readOnly className="form-control" value={summary} />
-        <button onClick={handleGenerateSummary} id="summary-btn" className="btn btn-secondary mt-3">Generate Summary</button>
-      </div>
-      <Canvas 
-        lines={lines}
-        setLines={setLines}
-        textBoxes={textBoxes}
-        setTextBoxes={setTextBoxes}
-      />
-    </>
+    </div>
   );
 }

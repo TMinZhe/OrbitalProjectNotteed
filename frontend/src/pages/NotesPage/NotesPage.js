@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import NoteCard from '../../components/NoteCard/NoteCard';
 import NoteEditor from '../../components/NoteEditor/NoteEditor';
-import CustomisationBar from '../../components/CustomisationBar/CustomisationBar';
 import { postData } from '../../../../backend/api';
 import './NotesPage.css'
 
@@ -54,7 +53,6 @@ export default function NotesPage() {
 
   return (
     <div className="notes-page">
-      { /* <CustomisationBar /> */ }
       <div className="notes-content">
         <div className="note-list" style={{ backgroundColor: '#9ecadb' }}>
           <div style={{display: 'flex', gap: '1rem'}}>
@@ -66,7 +64,7 @@ export default function NotesPage() {
           ))}
         </div>
         <div className="note-editor" style={{ backgroundColor: '#cce4ed' }}>
-          { noteId && (<NoteEditor refreshNotes={fetchNotes} />) }
+          { noteId && (<NoteEditor refreshNotes={fetchNotes} editable={true} />) }
         </div>
       </div>
     </div>

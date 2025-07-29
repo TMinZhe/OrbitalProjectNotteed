@@ -1,0 +1,38 @@
+.sharing-absolute-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+}
+
+.sharing-absolute-window {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 600px;
+  max-width: 90%;
+  box-shadow: 0 0 30px rgba(0,0,0,0.25);
+}
+
+.share-link {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.share-link input {
+  flex: 1;
+  padding: 0.4rem;
+  border: 1px solid #ccc;
+}
+
+.close-btn {
+  margin-top: 1rem;
+}

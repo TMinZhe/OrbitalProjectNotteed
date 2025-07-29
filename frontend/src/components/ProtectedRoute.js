@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 
+// Prevents user from accessing page if not logged in
 export default function ProtectedRoute({ children }) {
   const user = JSON.parse(localStorage.getItem('user'));
 

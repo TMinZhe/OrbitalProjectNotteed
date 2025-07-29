@@ -19,6 +19,7 @@ export default function NavBar() {
 
   const [showPrompt, setShowPrompt] = useState(false);
 
+  // Navigation Bar
   return (
     <div className="navbar">
       <div className="navbar-content">

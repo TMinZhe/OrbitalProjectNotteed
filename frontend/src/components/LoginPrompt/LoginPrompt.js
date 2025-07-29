@@ -20,7 +20,7 @@ export default function LoginPrompt() {
       setLoginMsg('');
       navigate('/');
     } else {
-      setLoginMsg(res.message || 'Login failed.');
+      setLoginMsg(res.message || 'Login failed');
     }
   };
 
