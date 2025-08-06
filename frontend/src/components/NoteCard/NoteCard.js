@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { postData } from '../../../../backend/api';
+import { useNavigate } from 'react-router-dom';
 import './NoteCard.css';
 
 // UI to browse owned notes
 export default function NoteCard({ note, refreshNotes }) {
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(note.title);
+
+  const navigate = useNavigate();
 
   const handleDelete = async () => {
     const confirmDelete = window.confirm("Are you sure you want to delete this note?");
@@ -15,6 +18,7 @@ export default function NoteCard({ note, refreshNotes }) {
       const data = await postData('/api/deletenote', { id: note._id });
       if (data.success) {
         refreshNotes();
+        navigate('/notes');
       } else {
         alert("Failed to delete note");
       }

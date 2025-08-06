@@ -332,9 +332,9 @@ export default function Canvas({ lines, setLines, textBoxes, setTextBoxes, image
       }}
     />
       <button onClick={addTextBox}>Add Text Box</button>
-      <button onClick={handleExport}>Export as Image</button>
-      <button onClick={handleExportPDF}>Export as PDF</button>
-      <button onClick={handleExportDocx}>Export as DOCX</button>
+      <button onClick={handleExport}>.png Export</button>
+      <button onClick={handleExportPDF}>.pdf Export</button>
+      <button onClick={handleExportDocx}>.docx Export</button>
       <button onClick={handleSummariseCanvas}>Summarise Canvas</button>
       <input
         type="file"
@@ -399,9 +399,7 @@ export default function Canvas({ lines, setLines, textBoxes, setTextBoxes, image
               strokeWidth={line.isErasing ? 20 : 2}
               tension={0.5}
               lineCap="round"
-              globalCompositeOperation={
-                line.isErasing ? "destination-out" : "source-over"
-              }
+              globalCompositeOperation="source-over"
             />
           ))}
 
